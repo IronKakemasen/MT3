@@ -3,12 +3,38 @@
 template<typename T>
 class Vec4
 {
+private:
+
 	T x = 0;
 	T y = 0;
 	T z = 0;
 	T w = 1;
 
 	float magnitude = 0.0f;
+
+public:
+
+	Vec4() {};
+	Vec4(T x_, T y_, T z_, T w_) : x(x_), y(y_), z(z_), w(w_) {}
+	Vec4(T entries[4]) : x(entries[0]), y(entries[1]), z(entries[2]), w(entries[3]) {}
+	//Vec4(T entries[4])
+	//{
+	//	x = entries[0]; y = entries[1]; z = entries[2]; w = entries[3]);
+	//}
+
+	Vec4 GetMyVec()
+	{
+		return *this;
+	}
+
+	void SetMyVec(const Vec4<T>& src_vec)
+	{
+		x = src_vec.x;
+		y = src_vec.y;
+		z = src_vec.z;
+		magnitude = src_vec.magnitude;
+	}
+
 
 	Vec4<T> operator+=(T const addNum)
 	{
