@@ -2,7 +2,8 @@
 #include <vector>
 #include <algorithm>
 #include "VectorAndMat.h"
-
+#include <iostream>
+#include <functional>
 
 const char kWindowTitle[] = "Title";
 
@@ -17,9 +18,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	Vec4<float> un;
-
-	un.SetMyVec({ 1.0f,1.0f,1.0f,1.0f });
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -29,7 +27,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// キー入力を受け取る
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
-
 
 
 		// フレームの終了
