@@ -14,11 +14,15 @@
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
       <Filter>KamataEngine\Adapter</Filter>
     </ClCompile>
+    <ClCompile Include="BaseClass.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
       <Filter>KamataEngine\Adapter</Filter>
     </ClInclude>
     <ClInclude Include="VectorAndMat.h" />
+    <ClInclude Include="BaseClass.h" />
   </ItemGroup>
 </Project>

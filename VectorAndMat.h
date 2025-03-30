@@ -1,6 +1,5 @@
 #pragma once
-#include <math.h>
-
+#include<math.h>
 
 //□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 //Matrix4x4　　　　 　　　　　　　　　　　　　　　　　　　　□
@@ -26,7 +25,34 @@ public:
 	//	}
 	//}
 
-	Mat4([[maybe_unused]] std::initializer_list<float> initList_) {};
+	Mat4(float a0, float a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9,
+		float a10, float a11, float a12, float a13, float a14, float a15)
+	{
+		m[0][0] = a0; m[0][1] = a1; m[0][2] = a2; m[0][3] = a3;
+		m[1][0] = a4; m[1][1] = a5; m[1][2] = a6; m[1][3] = a7;
+		m[2][0] = a8; m[2][1] = a9; m[2][2] = a10; m[2][3] = a11;
+		m[3][0] = a12; m[3][1] = a13; m[3][2] = a14; m[3][3] = a15;
+
+	}
+
+
+	//Mat4(float entries[][4])
+	//{
+	//	int u = 0;
+	//	for (int i = 0; i < 4; ++i)
+	//	{
+	//		for (int k = 0; k < 4; ++k, ++u)
+	//		{
+	//			m[i][k] = entries[i][u];
+	//		}
+	//	}
+	//}
+
+
+
+	//inline Mat4(std::initializer_list<float> _initList) {
+	//	std::memcpy(m, _initList.begin(), std::min<size_t>(_initList.size(), 16Ui64) * sizeof(float));
+
 	//=====================================
 
 
@@ -332,7 +358,7 @@ Vec4<T> operator*(Vec4<T> const& dst_vec, T const multipleNum)
 
 
 //▽▽▽▽▽▽▽▽▽▽▽▽▽▽STR行列の作成・取得▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽
-Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
+inline Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
 	const Vec4<float>& translate_)
 {
 	Mat4 ret_mat;
@@ -349,13 +375,12 @@ Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
 
 	//x軸
 	Vec4<float> circularFunc = substituteRad(rotateRad.x);
-	Mat4 rotateMatX = 
-	{
+
+	Mat4 rotateMatX(
 		1.0f,0.0f,0.0f,0.0f,
 		0.0f,circularFunc.x,circularFunc.y,0.0f,
 		0.0f,-circularFunc.y,circularFunc.x,0.0f,
-		0.0f,0.0f,0.0f,1.0f
-	};
+		0.0f,0.0f,0.0f,1.0f);
 
 	//y軸
 	circularFunc = substituteRad(rotateRad.y);
@@ -408,7 +433,7 @@ Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
 }//SRT行列の作成・取得
 
 //▽▽▽▽▽▽▽▽▽▽▽▽▽▽STR行列の作成・取得▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽
-Mat4 Get_STRMat3D(const Vec4<float>& scale_, const Vec4<float>& movementTheta_,
+inline Mat4 Get_STRMat3D(const Vec4<float>& scale_, const Vec4<float>& movementTheta_,
 	const Vec4<float>& translate_)
 {
 	Mat4 ret_mat;
