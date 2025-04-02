@@ -17,6 +17,12 @@
     <ClCompile Include="BaseClass.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
@@ -24,5 +30,8 @@
     </ClInclude>
     <ClInclude Include="VectorAndMat.h" />
     <ClInclude Include="BaseClass.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="GlobalVariable.h" />
+    <ClInclude Include="ObjectManager.h" />
   </ItemGroup>
 </Project>
