@@ -1,5 +1,6 @@
 #pragma once
 #include <math.h>
+#include "GlobalVariable.h"
 
 
 //□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
@@ -11,6 +12,8 @@ class Mat4
 public:
 
 	float m[4][4];
+
+	static Mat4* vPVMat;
 
 	//============Constractor==============
 	Mat4() { m[3][3] = 1.0f; }
@@ -26,12 +29,25 @@ public:
 	//	}
 	//}
 
-	Mat4([[maybe_unused]] std::initializer_list<float> initList_) {};
+	Mat4(float a0, float a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9,
+		float a10, float a11, float a12, float a13, float a14, float a15)
+	{
+		m[0][0] = a0; m[0][1] = a1; m[0][2] = a2; m[0][3] = a3;
+		m[1][0] = a4; m[1][1] = a5; m[1][2] = a6; m[1][3] = a7;
+		m[2][0] = a8; m[2][1] = a9; m[2][2] = a10; m[2][3] = a11;
+		m[3][0] = a12; m[3][1] = a13; m[3][2] = a14; m[3][3] = a15;
+
+	}
+
+
+	//inline Mat4(std::initializer_list<float> _initList) {
+	//	std::memcpy(m, _initList.begin(), std::min<size_t>(_initList.size(), 16Ui64) * sizeof(float));
+
 	//=====================================
 
 
 	//▽▽▽▽▽▽▽▽▽▽▽▽▽▽マトリックス同士の積▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽
-	Mat4 Multiply(const Mat4& other)
+	Mat4 Multiply(Mat4 const& other)
 	{
 		Mat4 ret_mat;
 
@@ -284,7 +300,7 @@ public:
 	}
 
 	//マトリックスとベクタの積
-	Vec4<T> GetMultipliedByMat(Vec4<T> dst_vec4, Mat4 src_mat)
+	Vec4<T> GetMultipliedByMat(Mat4 src_mat)
 	{
 		Vec4<T> ret_vec4;
 
@@ -332,7 +348,7 @@ Vec4<T> operator*(Vec4<T> const& dst_vec, T const multipleNum)
 
 
 //▽▽▽▽▽▽▽▽▽▽▽▽▽▽STR行列の作成・取得▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽
-Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
+inline Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
 	const Vec4<float>& translate_)
 {
 	Mat4 ret_mat;
@@ -349,13 +365,12 @@ Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
 
 	//x軸
 	Vec4<float> circularFunc = substituteRad(rotateRad.x);
-	Mat4 rotateMatX = 
-	{
+
+	Mat4 rotateMatX(
 		1.0f,0.0f,0.0f,0.0f,
 		0.0f,circularFunc.x,circularFunc.y,0.0f,
 		0.0f,-circularFunc.y,circularFunc.x,0.0f,
-		0.0f,0.0f,0.0f,1.0f
-	};
+		0.0f,0.0f,0.0f,1.0f);
 
 	//y軸
 	circularFunc = substituteRad(rotateRad.y);
@@ -408,13 +423,13 @@ Mat4 Get_SRTMat3D(const Vec4<float>& scale_, const Vec4<float>& rotateTheta_,
 }//SRT行列の作成・取得
 
 //▽▽▽▽▽▽▽▽▽▽▽▽▽▽STR行列の作成・取得▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽
-Mat4 Get_STRMat3D(const Vec4<float>& scale_, const Vec4<float>& movementTheta_,
+inline Mat4 Get_STRMat3D(const Vec4<float>& scale_, const Vec4<float>& movementTheta_,
 	const Vec4<float>& translate_)
 {
 	Mat4 ret_mat;
 
 	//回転角をradianに変換
-	static float const degreeConverter = 3.141592653589f / 180.0f;
+	static float const degreeConverter = Torima::kPi / 180.0f;
 	Vec4<float> rotateRad = movementTheta_ * degreeConverter;
 
 	//3つの回転軸に対応した行列を作成
@@ -484,3 +499,65 @@ Mat4 Get_STRMat3D(const Vec4<float>& scale_, const Vec4<float>& movementTheta_,
 }//STR行列の作成・取得
 
 
+//正射影行列3D
+inline Mat4 Get_Orthographic3D(
+	const float l_, const float r_,
+	const float t_, const float b_,
+	const float zn_, const float zf_)
+{
+	const float inv_W{ 1.0f / (r_ - l_) };
+	const float inv_H{ 1.0f / (t_ - b_) };
+	const float inv_D{ 1.0f / (zf_ - zn_) };
+
+	return Mat4
+	{
+		2.0f * inv_W, 0.0f, 0.0f, 0.0f,
+		0.0f, 2.0f * inv_H, 0.0f, 0.0f,
+		0.0f, 0.0f, inv_D, 0.0f,
+		-(l_ + r_) * inv_W, -(t_ + b_) * inv_H, -zn_ * inv_D, 1.0f,
+	};
+}
+
+//ビューポート変換3D
+static inline Mat4 Get_ViewportTransformation3D(
+	const float left_ = 0.0f, const float top_= 0.0f,
+	const float windowWidth_ = Torima::windowWidth, const float windowHeight_ = Torima::windowHeight,
+	const float minDepth_ = 0.0f, const float maxDepth_ = 1.0f)
+{
+	return Mat4{
+		windowWidth_ * 0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, -windowHeight_ * 0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, maxDepth_ - minDepth_, 0.0f,
+		left_ + windowWidth_ * 0.5f, top_ + windowHeight_ * 0.5f, minDepth_, 1.0f,
+	};
+}
+
+//透視投影行列
+inline Mat4 Get_PerspectiveFOV(float fovY_, float aspectRatio_, float nearClip_ = 0.1f, float farClip_ = 1000.0f) 
+{
+	const float cotTheta{ 1.0f / tanf(fovY_ * 0.5f) };
+	const float inv_FrustumHeight{ 1.0f / (farClip_ - nearClip_) };
+
+	return Mat4
+	{
+		(1.0f / aspectRatio_) * cotTheta, 0.0f, 0.0f, 0.0f,
+		0.0f, cotTheta, 0.0f, 0.0f,
+		0.0f, 0.0f, farClip_ * inv_FrustumHeight, 1.0f,
+		0.0f, 0.0f, -nearClip_ * farClip_ * inv_FrustumHeight, 0.0f,
+	};
+}
+
+//VPV行列
+inline Mat4 Get_VPVMat(Mat4* const cameraMat)
+{
+	//ビュー行列
+	Mat4 viewMat = cameraMat->GetInversed();
+	//射影行列
+	float aspectRatio = Torima::windowHeight / Torima::windowWidth;
+	Mat4 projectionMat = Get_PerspectiveFOV(Torima::torimaFOVy, aspectRatio);
+	//ビューポート行列
+	static Mat4 viewportMat = Get_ViewportTransformation3D();
+
+	//合成
+	return  viewMat.Multiply(projectionMat.Multiply(viewportMat));
+}
