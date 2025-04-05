@@ -48,19 +48,12 @@ public:
 	//LeftVertex
 	Vec4<float> local_Lv;
 	//ワールド頂点
-	Vec4<float> T;
-	Vec4<float> RT;
-	Vec4<float> LT;
+	Vec4<float> Tv;
+	Vec4<float> Rv;
+	Vec4<float> Lv;
 
-	TriangleShape(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_)
-	{
-		//TopVertex
-		local_Tv = Tv_;
-		//RightVertex
-		local_Rv = Rv_;
-		//LeftVertex
-		local_Lv = Lv_;
-	}
+	//頂点設定
+	void SetVertex(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_);
 
 };
 

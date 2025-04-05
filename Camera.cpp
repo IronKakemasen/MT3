@@ -31,8 +31,7 @@ void Camera::GetOwnMatrix()
 
 void Camera::Debug()
 {
-	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos));
-
+	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos),0.25f);
 }
 #endif // DEBUG
 

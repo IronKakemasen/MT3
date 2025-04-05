@@ -17,6 +17,18 @@ void Transform::Clear()
 
 }
 
+//頂点設定
+void TriangleShape::SetVertex(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_)
+{
+	//TopVertex
+	local_Tv = Tv_;
+	//RightVertex
+	local_Rv = Rv_;
+	//LeftVertex
+	local_Lv = Lv_;
+}
+
+//頂点設定
 void RectShape::SetVertex(float width_, float height_)
 {
 	width = width_;
