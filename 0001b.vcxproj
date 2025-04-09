@@ -112,14 +112,20 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyDebug.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="MyRectangle.cpp" />
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClass.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GlobalVariable.h" />
+    <ClInclude Include="MyDebug.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="MyRectangle.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="VectorAndMat.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

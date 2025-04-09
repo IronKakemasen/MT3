@@ -3,6 +3,9 @@
 
 
 class Camera;
+class Triangle;
+class MyRectangle;
+
 
 class ObjectBehavior
 {
@@ -13,14 +16,16 @@ public:
 	std::string name = "none";
 	//更新処理優先度
 	int updatePriNo = 0;
+	int count = -1;
+	bool isActive = true;
 
 	virtual void Update() = 0;
 	virtual void Initialize() = 0;
-	virtual void Render() = 0;
-	virtual void GetOwnMatrix() = 0;
+	virtual void Render(Mat4 vpMat, Mat4 viewportMat, Vec4<float> camerDir) = 0;
 
 #if defined(_DEBUG)
 	virtual void Debug() = 0;
+	bool UI = true;
 #endif // DEBUG
 
 };
@@ -31,22 +36,21 @@ class Prefab
 public:
 	//パブリックで...
 	Camera* camera;
+	Triangle* triangle;
+	MyRectangle* rectangle;
+
 };
 
 
 
 class GameObject:public ObjectBehavior
 {
-
-private:
-
 public:
-
-	 
 	virtual void Update() override {};
 	virtual void Initialize() override {};
-	virtual void Render() override {};
-	virtual void GetOwnMatrix() override {};
+	virtual void Render([[maybe_unused]]Mat4 vpMat, [[maybe_unused]] Mat4 viewportMat, 
+		[[maybe_unused]] Vec4<float> camerDir)override {};
+
 #if defined(_DEBUG)
 	virtual void Debug() override {};
 #endif // DEBUG
@@ -59,7 +63,6 @@ class ObjectManager
 private:
 
 	std::vector<GameObject*> objData;
-
 	//更新処理中かどうか
 	bool isUpdating = false;
 
@@ -67,6 +70,7 @@ public:
 
 	//パブリックで...
 	Prefab prefab;
+	inline static bool UI = true;
 
 	//オブジェクトをソートする
 	void SortObject();
@@ -93,6 +97,10 @@ public:
 	}
 
 	auto GetObjData() { return objData; }
+	auto GetIsUpdating() { return isUpdating; }
+
+	void SetIsUpdating(bool flag_) { isUpdating = flag_; }
+	void Destroy();
 
 };
 

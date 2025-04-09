@@ -11,11 +11,26 @@ class Mat4
 
 public:
 
-	float m[4][4];
+	float m[4][4] =
+	{
+		{1.0f,0.0f,0.0f,0.0f},
+		{0.0f,1.0f,0.0f,0.0f},
+		{0.0f,0.0f,1.0f,0.0f},
+		{0.0f,0.0f,0.0f,1.0f},
+	};
 
 
-	//============Constractor==============
+	//============Constructor==============
 	Mat4() {};
+
+	Mat4(float zero_) 
+	{
+		m[0][0] = 1.0f; m[0][1] = 0.0f; m[0][2] = 0.0f; m[0][3] = 0.0f;
+		m[1][0] = 0.0f; m[1][1] = 1.0f; m[1][2] = 0.0f; m[1][3] = 0.0f;
+		m[2][0] = 0.0f; m[2][1] = 0.0f; m[2][2] = 1.0f; m[2][3] = 0.0f;
+		m[3][0] = 0.0f; m[3][1] = 0.0f; m[3][2] = 0.0f; m[3][3] = 1.0f;
+		zero_;
+	};
 
 	Mat4(float a0, float a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8, float a9,
 		float a10, float a11, float a12, float a13, float a14, float a15)
@@ -183,6 +198,7 @@ class Vec4
 {
 
 public:
+
 	T x = 0;
 	T y = 0;
 	T z = 0;
@@ -229,7 +245,7 @@ public:
 
 		if (magnitude != 0) inv_mag = 1.0f / magnitude;
 
-		Vec4<T> ret_normalizeVec = { x * inv_mag ,y * inv_mag,z * inv_mag };
+		Vec4<T> ret_normalizeVec = { x * inv_mag ,y * inv_mag,z * inv_mag,1.0f };
 		ret_normalizeVec.magnitude = magnitude;
 
 		return ret_normalizeVec;
@@ -273,12 +289,27 @@ public:
 
 		ret_vec4.x = x * src_mat.m[0][0] + y * src_mat.m[1][0] +
 				     z * src_mat.m[2][0] + w * src_mat.m[3][0];
+
 		ret_vec4.y = x * src_mat.m[0][1] + y * src_mat.m[1][1] +
 					 z * src_mat.m[2][1] + w * src_mat.m[3][1];
+
 		ret_vec4.z = x * src_mat.m[0][2] + y * src_mat.m[1][2] +
 					 z * src_mat.m[2][2] + w * src_mat.m[3][2];
+
 		ret_vec4.w = x * src_mat.m[0][3] + y * src_mat.m[1][3] +
 					 z * src_mat.m[2][3] + w * src_mat.m[3][3];
+
+		return ret_vec4;
+	}
+
+	//クロス積を返す
+	Vec4<float> GetCross(Vec4<float> other)
+	{
+		Vec4<T> ret_vec4;
+
+		ret_vec4.x = y * other.z - z * other.y;
+		ret_vec4.y = z * other.x - x * other.z;
+		ret_vec4.z = x * other.y - y * other.x;
 
 		return ret_vec4;
 	}

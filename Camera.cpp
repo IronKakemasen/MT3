@@ -2,36 +2,35 @@
 
 void Camera::Update()
 {
-	GetOwnMatrix();
+	//SRT行列をセット
+	trans.mat = Get_SRTMat3D(trans.scale, trans.rotateTheta, trans.pos);
+	//vp行列の作成
+	Camera::VpMat = Get_VPMat(trans.pos, trans.mat);
+	//viewport行列の作成
+	Camera::ViewportMat = Get_ViewportTransformation3D();
+	//カメラの方向ベクトル
+	Camera::Normalized_cVec = trans.pos.GetNormalizedVec();
+
 
 }
 
-void Camera::Render()
+void Camera::Render([[maybe_unused]]Mat4 vpMat, [[maybe_unused]] Mat4 viewportMat, 
+	[[maybe_unused]] Vec4<float> camerDir)
 {
+
 
 }
 void Camera::Initialize()
 {
 
 }
-void Camera::GetOwnMatrix()
-{
-	//SRT行列をセット
-	trans.mat = Get_SRTMat3D(trans.scale, trans.rotateTheta, trans.pos);
-
-	//頂点と行列の積
-	colRect.LT = colRect.local_LT.GetMultipliedByMat(trans.mat);
-	colRect.RT = colRect.local_RT.GetMultipliedByMat(trans.mat);
-	colRect.LB = colRect.local_LB.GetMultipliedByMat(trans.mat);
-	colRect.RB = colRect.local_RB.GetMultipliedByMat(trans.mat);
-
-}
 
 #if defined(_DEBUG)
-
 void Camera::Debug()
 {
-	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos),0.25f);
+	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos));
+	ImGui::DragFloat4("rotate", reinterpret_cast<float*>(&trans.rotateTheta), 0.5f);
+
 }
 #endif // DEBUG
 
