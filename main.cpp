@@ -9,6 +9,8 @@
 #include "Triangle.h"
 #include "MyRectangle.h"
 #include "MyDebug.h"
+#include "Cube.h"
+
 
 const char kWindowTitle[] = "Title";
 
@@ -23,6 +25,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
+	//BaseDebugger
+	MyDebug myDebug;
+
+
+
 	//キャメラのorigin
 	Camera* original_camera = new Camera({ 0.0f,0.0f,1.0f,1.0f });
 	//三角形のオリジン
@@ -35,20 +42,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	);
 	//四角形のオリジン
 	MyRectangle* original_rectangle = new MyRectangle(100, 100, { 0,0,500,1 });
+	//立方体のオリジン
+	Cube* original_cube = new Cube(200, 200, 200, { 0,0,500,1 });
 
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
+	//プレハブ登録
 	objManager.prefab.camera = original_camera;
-	objManager.Instantiate2(*original_camera);
 	objManager.prefab.triangle = original_triangle;
-	objManager.Instantiate2(*original_triangle);
 	objManager.prefab.rectangle = original_rectangle;
-	objManager.Instantiate2(*original_rectangle);
-
-
-	//BaseDebugger
-	MyDebug myDebug;
+	objManager.prefab.cube = original_cube;
+	//インスタンス化(カメラだけ)
+	objManager.Instantiate2(*original_camera);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -60,22 +66,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
 
+		//===============================================更新処理=================================================
+
 		//オブジェクトの更新処理（カメラ含む）
 		objManager.SetIsUpdating(1);
 		for (auto const itr : objManager.GetObjData())
 		{
 			if((*itr).isActive) (*itr).Update();
 		}
-		objManager.SetIsUpdating(0);
 
-
-
-
-		//デバッグ
+		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
-
 		ImGui::Begin("iroiro");
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < myDebug.kFuncSum; ++i)
 		{
 			myDebug.myDebugFuncs[i]();
 		}
@@ -90,18 +93,45 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ImGui::End();
 			}
 		}
-
-
 #endif // DEBUG
 
-
-		//描画
+		//================================================描画=====================================================
 		//ゲームオブジェクト
 		for (auto const itr : objManager.GetObjData())
 		{
 			if ((*itr).isActive) (*itr).Render(Camera::VpMat, Camera::ViewportMat,
 				Camera::Normalized_cVec);
 		}
+		objManager.SetIsUpdating(0);
+
+
+
+		//=======================================インスタンス化(とりまmainで)=====================================================
+
+		for (auto& [key, value] : myDebug.prefabInsta.prefabDic)
+		{
+			if (value)
+			{
+				if (key == "Rectangle")
+				{
+					objManager.Instantiate2(*objManager.prefab.rectangle);
+				}
+
+				else if (key == "Triangle")
+				{
+					objManager.Instantiate2(*objManager.prefab.triangle);
+				}
+
+				else if (key == "Cube")
+				{
+					objManager.Instantiate2(*objManager.prefab.cube);
+				}
+				
+				value = false;
+
+			}
+		}
+
 
 
 		// フレームの終了
@@ -112,19 +142,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			break;
 		}
-
-
-
 	}
 
 	//💩
 	if (objManager.prefab.camera != nullptr)delete objManager.prefab.camera;
 	if (objManager.prefab.triangle != nullptr)delete objManager.prefab.triangle;
 	if (objManager.prefab.rectangle != nullptr)delete objManager.prefab.rectangle;
+	if (objManager.prefab.cube != nullptr)delete objManager.prefab.cube;
+
 	//ゲームオブジェクトの解放
 	objManager.Destroy();
-
-
 
 	// ライブラリの終了
 	Novice::Finalize();

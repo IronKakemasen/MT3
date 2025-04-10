@@ -11,6 +11,8 @@ private:
 	Vec4<float> LB;
 	Vec4<float> RB;
 
+	inline static int instantiatedCounter = -1;
+
 public:
 
 	//💩
@@ -20,12 +22,17 @@ public:
 
 	//Constructor
 	Camera() {};
+	Camera(Camera& camera_) 
+	{
+		*this = camera_;		
+		Camera::instantiatedCounter++;
+		name = "Camera[" + std::to_string(instantiatedCounter) + "]Copy";
+	};
 
 	Camera(Vec4<float> pos_)
 	{
-		count++;
 		updatePriNo = 0;
-		name = "Camera[" + std::to_string(count) + "]Copy";
+		name = "Camera[" + std::to_string(instantiatedCounter) + "]Copy";
 		trans.pos = pos_;
 		colRect.SetVertex(Torima::windowWidth, Torima::windowHeight);
 	}

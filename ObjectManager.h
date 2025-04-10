@@ -5,6 +5,7 @@
 class Camera;
 class Triangle;
 class MyRectangle;
+class Cube;
 
 
 class ObjectBehavior
@@ -14,6 +15,8 @@ public:
 	Transform trans;
 	RectShape colRect;
 	std::string name = "none";
+	BlendMode blendMode = kBlendModeNormal;
+	Vec4<float> current_color = { 255,255,255,255 };
 	//更新処理優先度
 	int updatePriNo = 0;
 	int count = -1;
@@ -34,11 +37,11 @@ class Prefab
 {
 
 public:
-	//パブリックで...
+
 	Camera* camera;
 	Triangle* triangle;
 	MyRectangle* rectangle;
-
+	Cube* cube;
 };
 
 
@@ -91,6 +94,7 @@ public:
 			SortObject();
 
 			ret = newObj;
+
 		}
 
 		return ret;

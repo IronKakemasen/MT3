@@ -2,7 +2,6 @@
 
 void Triangle::Update()
 {
-	//三角形と行列たちの演算
 	//SRT行列をセット
 	trans.mat = Get_SRTMat3D(trans.scale, trans.rotateTheta, trans.pos);
 

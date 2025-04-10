@@ -6,16 +6,23 @@ class MyRectangle :GameObject
 private:
 
 	RectShape localShape;
+	inline static int instantiatedCounter = -1;
 
 public:
 
 	MyRectangle() {};
 
+	MyRectangle(MyRectangle const& rectangle_)
+	{
+		*this = rectangle_;
+		MyRectangle::instantiatedCounter++;
+		name = "Rectangle[" + std::to_string(instantiatedCounter) + "]Copy";
+	};
+
 	MyRectangle(float width_, float height_,Vec4<float> pos_)
 	{
-		++count;
 		localShape.SetVertex(width_, height_);
-		name = "Rectangle[" + std::to_string(count) + "]Copy";
+		name = "Rectangle[" + std::to_string(instantiatedCounter) + "]Copy";
 		updatePriNo = 2;
 		trans.pos = pos_;
 	}

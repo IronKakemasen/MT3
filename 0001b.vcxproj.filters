@@ -32,6 +32,9 @@
     <ClCompile Include="MyDebug.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
@@ -45,5 +48,6 @@
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="MyRectangle.h" />
     <ClInclude Include="MyDebug.h" />
+    <ClInclude Include="Cube.h" />
   </ItemGroup>
 </Project>

@@ -11,16 +11,21 @@ void MyRectangle::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]]Vec4<floa
 {
 	RectShape screen_rect;
 
-	Vec4<float> screen_LT = GetScreenVec(localShape.LT, vpMat, viewportMat, trans.mat);
-	Vec4<float> screen_RT = GetScreenVec(localShape.RT, vpMat, viewportMat, trans.mat);
-	Vec4<float> screen_LB = GetScreenVec(localShape.LB, vpMat, viewportMat, trans.mat);
-	Vec4<float> screen_RB = GetScreenVec(localShape.RB, vpMat, viewportMat, trans.mat);
+	screen_rect.LT = GetScreenVec(localShape.LT, vpMat, viewportMat, trans.mat);
+	screen_rect.RT = GetScreenVec(localShape.RT, vpMat, viewportMat, trans.mat);
+	screen_rect.LB = GetScreenVec(localShape.LB, vpMat, viewportMat, trans.mat);
+	screen_rect.RB = GetScreenVec(localShape.RB, vpMat, viewportMat, trans.mat);
 
-	//描画
-	Novice::DrawQuad(
-		int(screen_LT.x), int(screen_LT.y), int(screen_RT.x), int(screen_RT.y),
-		int(screen_LB.x), int(screen_LB.y), int(screen_RB.x), int(screen_RB.y),
-		0, 0, 0, 0, 0, 0xAABB33FF);
+	//uint32_t tmpColor = GetIntColor(current_color);
+
+	////描画
+	//Novice::DrawQuad(
+	//	int(screen_rect.LT.x), int(screen_rect.LT.y), int(screen_rect.RT.x), int(screen_rect.RT.y),
+	//	int(screen_rect.LB.x), int(screen_rect.LB.y), int(screen_rect.RB.x), int(screen_rect.RB.y),
+	//	0, 0, 0, 0, 0, tmpColor);
+
+	Drawin::DrawQuadWireframe(localShape,current_color, 
+		kBlendModeNormal, vpMat, viewportMat, trans.mat);
 
 }
 

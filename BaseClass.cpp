@@ -51,9 +51,6 @@ Torima::Surface TriangleShape::GetSurfaceInfo(Vec4<float> Tv_, Vec4<float> Rv_, 
 //頂点設定
 void RectShape::SetVertex(float width_, float height_)
 {
-	width = width_;
-	height = height_;
-
 	//左上の頂点
 	LT.x = -width_ / 2.0f;
 	LT.y = height_ / 2.0f;
@@ -114,4 +111,14 @@ void Drawin::DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, Bl
 
 	Novice::DrawLine((int)screen_st.x, (int)screen_st.y,
 		(int)screen_end.x, (int)screen_end.y, tempColor);
+}
+
+void Drawin::DrawQuadWireframe(RectShape dst_rect, Vec4<float> color, BlendMode mode,
+	Mat4 vpMat, Mat4 viewportMat, Mat4 wMat = 0.0f)
+{
+	Drawin::DrawLine(dst_rect.LT, dst_rect.RT, color, mode, vpMat, viewportMat, wMat);
+	Drawin::DrawLine(dst_rect.RT, dst_rect.RB, color, mode, vpMat, viewportMat, wMat);
+	Drawin::DrawLine(dst_rect.RB, dst_rect.LB, color, mode, vpMat, viewportMat, wMat);
+	Drawin::DrawLine(dst_rect.LB, dst_rect.LT, color, mode, vpMat, viewportMat, wMat);
+
 }

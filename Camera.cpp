@@ -11,7 +11,6 @@ void Camera::Update()
 	//カメラの方向ベクトル
 	Camera::Normalized_cVec = trans.pos.GetNormalizedVec();
 
-
 }
 
 void Camera::Render([[maybe_unused]]Mat4 vpMat, [[maybe_unused]] Mat4 viewportMat, 

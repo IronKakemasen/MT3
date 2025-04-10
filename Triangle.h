@@ -7,16 +7,23 @@ class Triangle:TriangleShape,GameObject
 private:
 
 	TriangleShape renderShape;
+	inline static int instantiatedCounter = -1;
 
 public:
 
 	Triangle() {};
 
+	Triangle(Triangle const& triangle_)
+	{
+		*this = triangle_;
+		Triangle::instantiatedCounter++;
+		name = "Triangle[" + std::to_string(instantiatedCounter) + "]Copy";
+	};
+
 	Triangle(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_, Vec4<float> pos_)
 	{
-		++count;
 		renderShape.SetVertex(Tv_, Rv_, Lv_);
-		name = "Triangle[" + std::to_string(count) + "]Copy";
+		name = "Triangle[" + std::to_string(instantiatedCounter) + "]Copy";
 		updatePriNo = 1;
 		trans.pos = pos_;
 	}

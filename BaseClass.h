@@ -11,12 +11,6 @@
 #include <memory>
 
 
-namespace Drawin
-{
-	void DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, BlendMode mode,
-		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat);
-
-}
 
 class Transform
 {
@@ -71,8 +65,6 @@ class RectShape
 
 public:
 
-	float width;
-	float height;
 	//ローカル頂点
 	Vec4<float> LT;
 	Vec4<float> RT;
@@ -82,6 +74,17 @@ public:
 	//頂点設定
 	void SetVertex(float width_, float height_);
 };
+
+namespace Drawin
+{
+	void DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, BlendMode mode,
+		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat);
+
+	void DrawQuadWireframe(RectShape dst_rect, Vec4<float> color, BlendMode mode,
+		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat );
+
+}
+
 
 //カラーをintに変換
 uint32_t GetIntColor(Vec4<float> src_color);
