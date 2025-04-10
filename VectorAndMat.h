@@ -591,7 +591,7 @@ inline Mat4 Get_VPMat([[maybe_unused]]Vec4<float> cameraPos,Mat4 cameraMat)
 	
 	//中心投影
 	float aspectRatio = Torima::windowWidth / Torima::windowHeight;
-	projectionMat = Get_PerspectiveFOV(Torima::kPi * 0.5f, aspectRatio);
+	projectionMat = Get_PerspectiveFOV(Torima::torimaFOVy, aspectRatio);
 
 	//viewMat⇔PerspectiveMat
 	ret_mat = viewMat.Multiply(projectionMat);

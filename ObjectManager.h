@@ -6,7 +6,7 @@ class Camera;
 class Triangle;
 class MyRectangle;
 class Cube;
-
+class Sphere;
 
 class ObjectBehavior
 {
@@ -42,6 +42,7 @@ public:
 	Triangle* triangle;
 	MyRectangle* rectangle;
 	Cube* cube;
+	Sphere* sphere;
 };
 
 

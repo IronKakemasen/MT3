@@ -15,7 +15,7 @@ private:
 
 public:
 
-	//💩
+	//NAW
 	inline static Mat4 ViewportMat;
 	inline static Mat4 VpMat;
 	inline static Vec4<float> Normalized_cVec;
@@ -33,8 +33,10 @@ public:
 	{
 		updatePriNo = 0;
 		name = "Camera[" + std::to_string(instantiatedCounter) + "]Copy";
-		trans.pos = pos_;
 		colRect.SetVertex(Torima::windowWidth, Torima::windowHeight);
+		trans.pos = pos_;
+		trans.rotateTheta.x = Torima::kPi / 12.0f;
+
 	}
 
 	//Destructor

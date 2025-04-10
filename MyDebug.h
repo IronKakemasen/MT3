@@ -44,9 +44,9 @@ struct Grid
 			//x軸
 			Drawin::DrawLine(points[0], points[1],
 				color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
-			//z軸
-			Drawin::DrawLine(points[2], points[3],
-				color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+			////z軸
+			//Drawin::DrawLine(points[2], points[3],
+			//	color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
 		}
 	}
 
@@ -54,11 +54,11 @@ struct Grid
 	{
 		float const posZ = 600.0f;
 		//horizontal
-		points[0] = { -10000.0f,0.0f,posZ,1.0f };
-		points[1] = { 10000.0f,0.0f,posZ,1.0f };
+		points[0] = { -800,0.0f,posZ,1.0f };
+		points[1] = { 800.0f,0.0f,posZ,1.0f };
 		//depth 
-		points[2] = { 0.0f,0.0f,0.0f,1.0f };
-		points[3] = { 0.0f,0.0f,10000.0f,1.0f };
+		points[2] = { 0.0f,0.0f,-100.0f,1.0f };
+		points[3] = { 0.0f,0.0f,100.0f,1.0f };
 		color = { 0,0,0,255 };
 
 	}
@@ -68,6 +68,7 @@ struct PrefabInstantiation
 {
 	inline static std::map<std::string, bool> prefabDic;
 
+	//NAW
 	//std::map<std::string, std::any> prefabDic;
 
 	//template<typename T, typename = std::enable_if_t<std::is_base_of_v<GameObject, T>>>
@@ -110,6 +111,8 @@ struct PrefabInstantiation
 		prefabDic["Rectangle"] = false;
 		prefabDic["Triangle"] = false;
 		prefabDic["Cube"] = false;
+		prefabDic["Sphere"] = false;
+
 	}
 
 };

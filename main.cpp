@@ -10,7 +10,7 @@
 #include "MyRectangle.h"
 #include "MyDebug.h"
 #include "Cube.h"
-
+#include "Sphere.h"
 
 const char kWindowTitle[] = "Title";
 
@@ -29,9 +29,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	MyDebug myDebug;
 
 
-
 	//キャメラのorigin
-	Camera* original_camera = new Camera({ 0.0f,0.0f,1.0f,1.0f });
+	Camera* original_camera = new Camera({ 0.0f,160.0f,-70.0f,1.0f });
 	//三角形のオリジン
 	Triangle* original_triangle = new Triangle
 	(
@@ -44,15 +43,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	MyRectangle* original_rectangle = new MyRectangle(100, 100, { 0,0,500,1 });
 	//立方体のオリジン
 	Cube* original_cube = new Cube(200, 200, 200, { 0,0,500,1 });
+	//球体のオリジン
+	Sphere* original_sphere = new Sphere(200.0f, { 0,0,500,1 });
 
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
 	//プレハブ登録
-	objManager.prefab.camera = original_camera;
-	objManager.prefab.triangle = original_triangle;
-	objManager.prefab.rectangle = original_rectangle;
-	objManager.prefab.cube = original_cube;
+	objManager.prefab.camera = original_camera;				//キャメラ
+	objManager.prefab.triangle = original_triangle;			//三角形
+	objManager.prefab.rectangle = original_rectangle;		//四角形
+	objManager.prefab.cube = original_cube;					//直方体
+	objManager.prefab.sphere = original_sphere;				//球体
 	//インスタンス化(カメラだけ)
 	objManager.Instantiate2(*original_camera);
 
@@ -107,7 +109,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 		//=======================================インスタンス化(とりまmainで)=====================================================
-
+		//NAW
 		for (auto& [key, value] : myDebug.prefabInsta.prefabDic)
 		{
 			if (value)
@@ -127,6 +129,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					objManager.Instantiate2(*objManager.prefab.cube);
 				}
 				
+				else if (key == "Sphere")
+				{
+					objManager.Instantiate2(*objManager.prefab.sphere);
+				}
+
 				value = false;
 
 			}
@@ -144,11 +151,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 	}
 
-	//💩
+	//NAW
 	if (objManager.prefab.camera != nullptr)delete objManager.prefab.camera;
 	if (objManager.prefab.triangle != nullptr)delete objManager.prefab.triangle;
 	if (objManager.prefab.rectangle != nullptr)delete objManager.prefab.rectangle;
 	if (objManager.prefab.cube != nullptr)delete objManager.prefab.cube;
+	if (objManager.prefab.sphere != nullptr)delete objManager.prefab.sphere;
 
 	//ゲームオブジェクトの解放
 	objManager.Destroy();
