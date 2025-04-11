@@ -35,7 +35,7 @@ public:
 		name = "Camera[" + std::to_string(instantiatedCounter) + "]Copy";
 		colRect.SetVertex(Torima::windowWidth, Torima::windowHeight);
 		trans.pos = pos_;
-		trans.rotateTheta.x = Torima::kPi / 12.0f;
+		trans.rotateTheta.x = 180.0f / 12.0f;
 
 	}
 

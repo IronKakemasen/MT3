@@ -28,8 +28,6 @@ void Triangle::Render(Mat4 vpMat, Mat4 viewportMat,Vec4<float> camerDir)
 		(int)screen_Rv.x, (int)screen_Rv.y,
 		(int)screen_Lv.x, (int)screen_Lv.y,
 		color, kFillModeWireFrame);
-
-
 }
 
 void Triangle::Initialize()

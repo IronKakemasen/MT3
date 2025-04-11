@@ -34,50 +34,46 @@ struct Grid
 {
 	static uint32_t const kSubdivision = 10;
 	Vec4<float> points[4];
-	Vec4<float> color;
 	Mat4 mat;
 
 	void operator()()
 	{
 		if (DebugSwitcher::buttons["Grid"])
 		{
-			int const klineSum = 5;
+			int const klineSum = 13;
 			float const haba = 50.0f;
 
 			for (int i = 0; i < klineSum;++i)
 			{
 				//x軸
-				Drawin::DrawLine({ points[0].x ,points[0].y,points[0].z + haba * float(i),1.0f },
-					{ points[1].x ,points[1].y,points[1].z + haba * float(i),1.0f },
-					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
-				Drawin::DrawLine({ points[0].x ,points[0].y,points[0].z - haba * float(i),1.0f },
-					{ points[1].x ,points[1].y,points[1].z - haba * float(i),1.0f },
-					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+				Drawin::DrawLine({ points[0].x ,0.0f,points[1].z + haba * float(i),1.0f },
+					{ points[2].x ,0.0f,points[1].z + haba * float(i),1.0f },
+					{ 100,100,100,200 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
 
 				//z軸
-				Drawin::DrawLine({ points[2].x + haba * float(i),points[2].y,points[2].z ,1.0f},
-					{ points[3].x + haba * float(i),points[3].y,points[3].z ,1.0f },
-					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
-				
-				Drawin::DrawLine({ points[2].x - haba * float(i),points[2].y,points[2].z ,1.0f },
-					{ points[3].x - haba * float(i),points[3].y,points[3].z ,1.0f },
-					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
-
-
+				Drawin::DrawLine({ points[0].x + haba * float(i),0.0f,points[1].z ,1.0f},
+					{ points[0].x + haba * float(i),0.0f,points[3].z ,1.0f },
+					{ 100,100,100,200 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
 			}
+
+			//x軸
+			Drawin::DrawLine(points[0], points[2],
+				{ 0,0,0,250 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+
+			//z軸
+			Drawin::DrawLine(points[1],points[3],
+				{0,0,0,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
 		}
 	}
 
 	Grid()
 	{
-		float const posZ = 100.0f;
 		//horizontal
-		points[0] = { -500,0.0f,posZ,1.0f };
-		points[1] = { 500.0f,0.0f,posZ,1.0f };
+		points[0] = { -300 ,0,0,1.0f };
 		//depth 
-		points[2] = { 0.0f,0.0f,0.0f,1.0f };
-		points[3] = { 0.0f,0.0f,1000.0f,1.0f };
-		color = { 0,0,0,255 };
+		points[1] = { 0.0f,0.0f,-300.0f,1.0f };
+		points[2] = { 300 ,0,0 ,1.0f };
+		points[3] = { 0,0,300.0f ,1.0f };
 
 	}
 };

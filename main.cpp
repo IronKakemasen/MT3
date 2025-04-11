@@ -30,7 +30,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	//キャメラのorigin
-	Camera* original_camera = new Camera({ 0.0f,160.0f,-70.0f,1.0f });
+	Camera* original_camera = new Camera({ 0.0f,160.0f,-300.0f,1.0f });
 	//三角形のオリジン
 	Triangle* original_triangle = new Triangle
 	(
@@ -40,11 +40,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{ 0.0f,-100,500.0f,1.0f }
 	);
 	//四角形のオリジン
-	MyRectangle* original_rectangle = new MyRectangle(100, 100, { 0,0,500,1 });
+	MyRectangle* original_rectangle = new MyRectangle(100, 100, { 0,0,0,1 });
 	//立方体のオリジン
-	Cube* original_cube = new Cube(200, 200, 200, { 0,0,500,1 });
+	Cube* original_cube = new Cube(200, 200, 200, { 0,0,0,1 });
 	//球体のオリジン
-	Sphere* original_sphere = new Sphere(200.0f, { 0,0,500,1 });
+	Sphere* original_sphere = new Sphere(100, { 0,100,0,1 });
 
 
 	//ゲームオブジェクトを管理する箱			
@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objManager.prefab.sphere = original_sphere;				//球体
 	//インスタンス化(カメラだけ)
 	objManager.Instantiate2(*original_camera);
-	objManager.Instantiate2(*original_triangle);
+	objManager.Instantiate2(*original_sphere);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
