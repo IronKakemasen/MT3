@@ -139,100 +139,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
-		Mat4 a = 
-		{
-			3.2f,0.7f,9.6f,4.4f,
-			5.5f,1.3f,7.8f,2.1f,
-			6.9f,8.0f,2.6f,1.0f,
-			0.5f,7.2f,5.1f,3.3f
-		};
+		Mat4 srtMat;
+		srtMat = Get_SRTMat3D({ 1.5f,5.2f,7.3f,1.0f }, { 0,0,0,0 },
+			{ 4.1f,2.6f,0.8f,1.0f });
 
-		Mat4 b =
-		{
-			4.1f,6.5f,3.3f,2.2f,
-			8.8f,0.6f,9.9f,7.7f,
-			1.1f,5.5f,6.6f,0.0f,
-			3.3f,9.9f,8.8f,2.2f
-		};
 
-		Mat4 c = a ;
-		Mat4 d = a ;
-
-		c += b;
-		d -= b;
-
-		ImGui::Begin("ADD");
+		ImGui::Begin("SRTmat");
 		for (int i = 0; i < 4; ++i)
 		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&c.m[i]));
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&srtMat.m[i]));
 		}
 		ImGui::End();
-
-		ImGui::Begin("Sub");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&d.m[i]));
-		}
-		ImGui::End();
-
-		ImGui::Begin("Multiple");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&a.Multiply(b).m[i]));
-		}
-		ImGui::End();
-
-		ImGui::Begin("inv_M1");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&a.GetInversed().m[i]));
-		}
-		ImGui::End();
-
-		ImGui::Begin("inv_M2");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&b.GetInversed().m[i]));
-		}
-		ImGui::End();
-
-		ImGui::Begin("identity_M1");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&a.Multiply(a.GetInversed()).m[i]));
-		}
-		ImGui::End();
-
-		auto transpose = [](Mat4 const& src)
-			{
-				Mat4 ret =
-				{
-					src.m[0][0],src.m[1][0],src.m[2][0],src.m[3][0],
-					src.m[0][1],src.m[1][1],src.m[2][1],src.m[3][1],
-					src.m[0][2],src.m[1][2],src.m[2][2],src.m[3][2],
-					src.m[0][3],src.m[1][3],src.m[2][3],src.m[3][3],
-				};
-
-				return ret;
-			};
-
-		ImGui::Begin("transpose_M1");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&transpose(a).m[i]));
-		}
-		ImGui::End();
-
-		ImGui::Begin("transpose_M2");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&transpose(b).m[i]));
-		}
-		ImGui::End();
-
-
-
-
 
 
 		// フレームの終了
