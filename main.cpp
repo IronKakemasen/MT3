@@ -42,7 +42,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//四角形のオリジン
 	MyRectangle* original_rectangle = new MyRectangle(100, 100, { 0,0,500,1 });
 	//立方体のオリジン
-	Cube* original_cube = new Cube(200, 200, 200, { 0,0,500,1 });
+	Cube* original_cube = new Cube(100, 100, 100, { 0,0,500,1 });
 	//球体のオリジン
 	Sphere* original_sphere = new Sphere(200.0f, { 0,0,500,1 });
 
@@ -139,17 +139,98 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
-		Vec4<float> v1 = { 5,2,-3,1 };
-		Vec4<float> v2 = { -3,4,7,1 };
+		Mat4 a = 
+		{
+			3.2f,0.7f,9.6f,4.4f,
+			5.5f,1.3f,7.8f,2.1f,
+			6.9f,8.0f,2.6f,1.0f,
+			0.5f,7.2f,5.1f,3.3f
+		};
 
-		Novice::ScreenPrintf(100, 100, "ADD:%.2f,%.2f,%.2f", v1.x + v2.x, v1.x + v2.y, v1.z + v2.z);
-		Novice::ScreenPrintf(100, 130, "SUB:%.2f,%.2f,%.2f", v1.x - v2.x, v1.x - v2.y, v1.z - v2.z);
-		Novice::ScreenPrintf(100, 160, "MULTI:%.2f,%.2f,%.2f", v1.x * v2.x, v1.x * v2.y, v1.z * v2.z);
-		Novice::ScreenPrintf(100, 190, "Dot:%.2f", v1.GetDotProductionResult(v1, v2));
-		v1.SetMagnitutde();
-		Novice::ScreenPrintf(100, 210, "Length:%.2f", v1.magnitude);
-		Vec4<float> a = v1.GetNormalizedVec();
-		Novice::ScreenPrintf(100, 240, "Normalize:%.2f,%.2f,%.2f", a.x, a.y, a.z);
+		Mat4 b =
+		{
+			4.1f,6.5f,3.3f,2.2f,
+			8.8f,0.6f,9.9f,7.7f,
+			1.1f,5.5f,6.6f,0.0f,
+			3.3f,9.9f,8.8f,2.2f
+		};
+
+		Mat4 c = a ;
+		Mat4 d = a ;
+
+		c += b;
+		d -= b;
+
+		ImGui::Begin("ADD");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&c.m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("Sub");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&d.m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("Multiple");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&a.Multiply(b).m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("inv_M1");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&a.GetInversed().m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("inv_M2");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&b.GetInversed().m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("identity_M1");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&a.Multiply(a.GetInversed()).m[i]));
+		}
+		ImGui::End();
+
+		auto transpose = [](Mat4 const& src)
+			{
+				Mat4 ret =
+				{
+					src.m[0][0],src.m[1][0],src.m[2][0],src.m[3][0],
+					src.m[0][1],src.m[1][1],src.m[2][1],src.m[3][1],
+					src.m[0][2],src.m[1][2],src.m[2][2],src.m[3][2],
+					src.m[0][3],src.m[1][3],src.m[2][3],src.m[3][3],
+				};
+
+				return ret;
+			};
+
+		ImGui::Begin("transpose_M1");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&transpose(a).m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("transpose_M2");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&transpose(b).m[i]));
+		}
+		ImGui::End();
+
+
 
 
 

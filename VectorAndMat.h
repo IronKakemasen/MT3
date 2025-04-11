@@ -32,6 +32,21 @@ public:
 		return *this;
 	}
 
+	Mat4 operator-=(Mat4 other)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int k = 0; k < 4; ++k)
+			{
+				m[i][k] -= other.m[i][k];
+			}
+		}
+
+		return *this;
+	}
+
+
+
 
 	//============Constructor==============
 	Mat4() {};

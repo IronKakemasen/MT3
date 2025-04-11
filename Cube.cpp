@@ -29,7 +29,7 @@ void Cube::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> cam
 		//	0, 0, 0, 0, 0, tmpColor);
 		
 		Drawin::DrawQuadWireframe(local_surfaces[i], 
-			current_color, kBlendModeNormal, vpMat, viewportMat);
+			current_color, kBlendModeNormal, vpMat, viewportMat, trans.mat);
 	}
 
 
