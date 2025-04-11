@@ -69,7 +69,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::GetHitKeyStateAll(keys);
 
 		//===============================================更新処理=================================================
-
 		//オブジェクトの更新処理（カメラ含む）
 		objManager.SetIsUpdating(1);
 		for (auto const itr : objManager.GetObjData())
@@ -139,15 +138,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
-		Mat4 srtMat;
-		srtMat = Get_SRTMat3D({ 1.2f,0.79f,-2.1f,1.0f }, { 0.4f * 180.0f / Torima::kPi,1.43f * 180.0f / Torima::kPi,-0.8f * 180.0f / Torima::kPi,0 },
-			{ 2.7f,-4.15f,1.57f,1.0f });
+		Mat4 vieportMat = Get_ViewportTransformation3D(100.0f, 200.0f, 600.0f, 300.0f, 0.0f, 1.0f);
+		Mat4 orthoMat = Get_Orthographic3D(-160.0f, 200.0f, 160.0f, 300.0f, 0.0f, 1000.0f);
+		Mat4 perspectFov = Get_PerspectiveFOV(0.63f, 1.33f, 0.1f, 1000.0f);
 
 
-		ImGui::Begin("SRTmat");
+		ImGui::Begin("viewPortMat");
 		for (int i = 0; i < 4; ++i)
 		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&srtMat.m[i]));
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&vieportMat.m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("orthoMat");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&orthoMat.m[i]));
+		}
+		ImGui::End();
+
+		ImGui::Begin("perspectiveMat");
+		for (int i = 0; i < 4; ++i)
+		{
+			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&perspectFov.m[i]));
 		}
 		ImGui::End();
 
