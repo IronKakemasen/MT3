@@ -57,6 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objManager.prefab.sphere = original_sphere;				//球体
 	//インスタンス化(カメラだけ)
 	objManager.Instantiate2(*original_camera);
+	objManager.Instantiate2(*original_triangle);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -137,32 +138,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			}
 		}
-
-		Mat4 vieportMat = Get_ViewportTransformation3D(100.0f, 200.0f, 600.0f, 300.0f, 0.0f, 1.0f);
-		Mat4 orthoMat = Get_Orthographic3D(-160.0f, 200.0f, 160.0f, 300.0f, 0.0f, 1000.0f);
-		Mat4 perspectFov = Get_PerspectiveFOV(0.63f, 1.33f, 0.1f, 1000.0f);
-
-
-		ImGui::Begin("viewPortMat");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&vieportMat.m[i]));
-		}
-		ImGui::End();
-
-		ImGui::Begin("orthoMat");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&orthoMat.m[i]));
-		}
-		ImGui::End();
-
-		ImGui::Begin("perspectiveMat");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&perspectFov.m[i]));
-		}
-		ImGui::End();
 
 
 		// フレームの終了

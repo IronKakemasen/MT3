@@ -26,6 +26,7 @@ public:
 		name = "Triangle[" + std::to_string(instantiatedCounter) + "]Copy";
 		updatePriNo = 1;
 		trans.pos = pos_;
+		current_color = { 0,200,50,255 };
 	}
 
 	~Triangle() {};

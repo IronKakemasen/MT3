@@ -19,8 +19,8 @@ void Triangle::Render(Mat4 vpMat, Mat4 viewportMat,Vec4<float> camerDir)
 	sur = TriangleShape::GetSurfaceInfo(screen_Tv, screen_Rv, screen_Lv, camerDir);
 
 	uint32_t color;
-	if (sur == Torima::kFrontSide) color = 0xccccccFF;
-	else color = 0x000000FF;
+	if (sur == Torima::kFrontSide) color = 0x000000FF;
+	else color = 0x00F050FF ;
 
 	//描画
 	Novice::DrawTriangle(
