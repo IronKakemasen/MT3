@@ -24,7 +24,7 @@ public:
 		name = "Cube[" + std::to_string(instantiatedCounter) + "]Copy";
 		updatePriNo = 3;
 		trans.pos = pos_;
-		current_color = { 150,150,150,255 };
+		current_color = { 255,150,150,255 };
 	}
 
 	~Cube() {};

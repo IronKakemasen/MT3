@@ -42,7 +42,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//四角形のオリジン
 	MyRectangle* original_rectangle = new MyRectangle(100, 100, { 0,0,500,1 });
 	//立方体のオリジン
-	Cube* original_cube = new Cube(100, 100, 100, { 0,0,500,1 });
+	Cube* original_cube = new Cube(200, 200, 200, { 0,0,500,1 });
 	//球体のオリジン
 	Sphere* original_sphere = new Sphere(200.0f, { 0,0,500,1 });
 
@@ -57,6 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objManager.prefab.sphere = original_sphere;				//球体
 	//インスタンス化(カメラだけ)
 	objManager.Instantiate2(*original_camera);
+	objManager.Instantiate2(*original_cube);					//直方体
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -139,17 +140,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
-		Mat4 srtMat;
-		srtMat = Get_SRTMat3D({ 1.5f,5.2f,7.3f,1.0f }, { 0,0,0,0 },
-			{ 4.1f,2.6f,0.8f,1.0f });
-
-
-		ImGui::Begin("SRTmat");
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4(std::to_string(i).c_str(), reinterpret_cast<float*>(&srtMat.m[i]));
-		}
-		ImGui::End();
+		Novice::ScreenPrintf(400, 360, "Please check the accuracy of RotateMatrix by adjusting [rotate]");
 
 
 		// フレームの終了
