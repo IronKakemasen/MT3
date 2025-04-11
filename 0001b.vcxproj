@@ -113,7 +113,6 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyDebug.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="MyRectangle.cpp" />
     <ClCompile Include="Sphere.cpp" />

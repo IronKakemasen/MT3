@@ -114,7 +114,7 @@ void Drawin::DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, Bl
 }
 
 void Drawin::DrawQuadWireframe(RectShape dst_rect, Vec4<float> color, BlendMode mode,
-	Mat4 vpMat, Mat4 viewportMat, Mat4 wMat = 0.0f)
+	Mat4 vpMat, Mat4 viewportMat, Mat4 wMat)
 {
 	Drawin::DrawLine(dst_rect.LT, dst_rect.RT, color, mode, vpMat, viewportMat, wMat);
 	Drawin::DrawLine(dst_rect.RT, dst_rect.RB, color, mode, vpMat, viewportMat, wMat);

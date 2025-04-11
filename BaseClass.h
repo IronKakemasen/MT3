@@ -81,7 +81,7 @@ namespace Drawin
 		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat);
 
 	void DrawQuadWireframe(RectShape dst_rect, Vec4<float> color, BlendMode mode,
-		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat );
+		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat = 0.0f);
 
 }
 

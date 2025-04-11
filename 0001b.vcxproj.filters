@@ -29,9 +29,6 @@
     <ClCompile Include="MyRectangle.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="MyDebug.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Cube.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>

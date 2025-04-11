@@ -41,24 +41,42 @@ struct Grid
 	{
 		if (DebugSwitcher::buttons["Grid"])
 		{
-			//x軸
-			Drawin::DrawLine(points[0], points[1],
-				color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
-			////z軸
-			//Drawin::DrawLine(points[2], points[3],
-			//	color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+			int const klineSum = 5;
+			float const haba = 50.0f;
+
+			for (int i = 0; i < klineSum;++i)
+			{
+				//x軸
+				Drawin::DrawLine({ points[0].x ,points[0].y,points[0].z + haba * float(i),1.0f },
+					{ points[1].x ,points[1].y,points[1].z + haba * float(i),1.0f },
+					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+				Drawin::DrawLine({ points[0].x ,points[0].y,points[0].z - haba * float(i),1.0f },
+					{ points[1].x ,points[1].y,points[1].z - haba * float(i),1.0f },
+					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+
+				//z軸
+				Drawin::DrawLine({ points[2].x + haba * float(i),points[2].y,points[2].z ,1.0f},
+					{ points[3].x + haba * float(i),points[3].y,points[3].z ,1.0f },
+					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+				
+				Drawin::DrawLine({ points[2].x - haba * float(i),points[2].y,points[2].z ,1.0f },
+					{ points[3].x - haba * float(i),points[3].y,points[3].z ,1.0f },
+					color, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat, mat);
+
+
+			}
 		}
 	}
 
 	Grid()
 	{
-		float const posZ = 600.0f;
+		float const posZ = 100.0f;
 		//horizontal
-		points[0] = { -800,0.0f,posZ,1.0f };
-		points[1] = { 800.0f,0.0f,posZ,1.0f };
+		points[0] = { -500,0.0f,posZ,1.0f };
+		points[1] = { 500.0f,0.0f,posZ,1.0f };
 		//depth 
-		points[2] = { 0.0f,0.0f,-100.0f,1.0f };
-		points[3] = { 0.0f,0.0f,100.0f,1.0f };
+		points[2] = { 0.0f,0.0f,0.0f,1.0f };
+		points[3] = { 0.0f,0.0f,1000.0f,1.0f };
 		color = { 0,0,0,255 };
 
 	}

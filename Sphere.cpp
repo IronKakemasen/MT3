@@ -96,9 +96,9 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 			}
 
 			//描画
-			Drawin::DrawLine(p[0], p[1], { 0,0,0,255 }, kBlendModeNormal, 
+			Drawin::DrawLine(p[0], p[1], current_color, kBlendModeNormal, 
 				vpMat, viewportMat, trans.mat);
-			Drawin::DrawLine(p[1], p[2], { 0,0,0,255 }, kBlendModeNormal,
+			Drawin::DrawLine(p[1], p[2], current_color, kBlendModeNormal,
 				vpMat, viewportMat, trans.mat);
 
 

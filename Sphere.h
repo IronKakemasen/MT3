@@ -26,7 +26,7 @@ public:
 		name = "Sphere[" + std::to_string(instantiatedCounter) + "]Copy";
 		trans.pos = pos_;
 		radius = radius_;
-		current_color = { 150,150,150,255 };
+		current_color = { 100,100,100,255 };
 	}
 
 	~Sphere() {};

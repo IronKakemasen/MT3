@@ -139,6 +139,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
+		Vec4<float> v1 = { 5,2,-3,1 };
+		Vec4<float> v2 = { -3,4,7,1 };
+
+		Novice::ScreenPrintf(100, 100, "ADD:%.2f,%.2f,%.2f", v1.x + v2.x, v1.x + v2.y, v1.z + v2.z);
+		Novice::ScreenPrintf(100, 130, "SUB:%.2f,%.2f,%.2f", v1.x - v2.x, v1.x - v2.y, v1.z - v2.z);
+		Novice::ScreenPrintf(100, 160, "MULTI:%.2f,%.2f,%.2f", v1.x * v2.x, v1.x * v2.y, v1.z * v2.z);
+		Novice::ScreenPrintf(100, 190, "Dot:%.2f", v1.GetDotProductionResult(v1, v2));
+		v1.SetMagnitutde();
+		Novice::ScreenPrintf(100, 210, "Length:%.2f", v1.magnitude);
+		Vec4<float> a = v1.GetNormalizedVec();
+		Novice::ScreenPrintf(100, 240, "Normalize:%.2f,%.2f,%.2f", a.x, a.y, a.z);
+
+
 
 
 		// フレームの終了
