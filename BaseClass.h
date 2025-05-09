@@ -75,10 +75,16 @@ public:
 	void SetVertex(float width_, float height_);
 };
 
+struct Segment
+{
+	Vec4<float> start;
+	Vec4<float> end;
+};
+
 namespace Drawin
 {
 	void DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, BlendMode mode,
-		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat);
+		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat= 0.0f);
 
 	void DrawQuadWireframe(RectShape dst_rect, Vec4<float> color, BlendMode mode,
 		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat = 0.0f);

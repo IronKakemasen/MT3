@@ -27,7 +27,7 @@ void Camera::Initialize()
 #if defined(_DEBUG)
 void Camera::Debug()
 {
-	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos));
+	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos),0.125f);
 	ImGui::DragFloat4("rotate", reinterpret_cast<float*>(&trans.rotateTheta), 0.5f);
 
 }

@@ -11,7 +11,7 @@ void Sphere::Update()
 void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> camerDir)
 {
 	float const kSubdivision = 24;
-	float const delta_t = Torima::kPi * 2.0f / kSubdivision;
+	float const delta_t = Torima::kPi / kSubdivision;
 	float const delta_p = Torima::kPi * 2.0f / kSubdivision;
 
 	auto VecConverter = [this](float cur_t, float delta_t, float cur_p, float delta_p, int type_)
@@ -24,10 +24,10 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 		{
 			Mat4 const aConverter =
 			{
-				0.0f,0.0f,0.0f,0.0f,
-				0.0f,0.0f,0.0f,0.0f,
-				0.0f,0.0f,0.0f,0.0f,
-				cosf(cur_t) * cosf(cur_p) * radius,sinf(cur_t) * radius,cosf(cur_t) * sinf(cur_p) * radius,1.0f,
+				1.0f,0.0f,0.0f,0.0f,
+				0.0f,1.0f,0.0f,0.0f,
+				0.0f,0.0f,1.0f,0.0f,
+				cosf(cur_t) * cosf(cur_p) * radius , sinf(cur_t) * radius , cosf(cur_t) * sinf(cur_p) * radius , 1.0f,
 			};
 
 			ret_vec = ret_vec.GetMultipliedByMat(aConverter);
@@ -39,9 +39,9 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 		{
 			Mat4 const bConverter =
 			{
-				0.0f,0.0f,0.0f,0.0f,
-				0.0f,0.0f,0.0f,0.0f,
-				0.0f,0.0f,0.0f,0.0f,
+				1.0f,0.0f,0.0f,0.0f,
+				0.0f,1.0f,0.0f,0.0f,
+				0.0f,0.0f,1.0f,0.0f,
 				cosf(cur_t + delta_t)* cosf(cur_p)* radius,sinf(cur_t + delta_t)* radius,
 				cosf(cur_t + delta_t)* sinf(cur_p)* radius,1.0f,
 			};
@@ -55,9 +55,9 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 		{
 			Mat4 const cConverter =
 			{
-				0.0f,0.0f,0.0f,0.0f,
-				0.0f,0.0f,0.0f,0.0f,
-				0.0f,0.0f,0.0f,0.0f,
+				1.0f,0.0f,0.0f,0.0f,
+				0.0f,1.0f,0.0f,0.0f,
+				0.0f,0.0f,1.0f,0.0f,
 				cosf(cur_t)* cosf(cur_p + delta_p)* radius,
 				sinf(cur_t)* radius,cosf(cur_t)* sinf(cur_p + delta_p)* radius,1.0f,
 			};
@@ -84,7 +84,6 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 		//経度の方向に分割(0.0 <= cur_p <= 2Pi)
 		for (uint8_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex)
 		{
-
 			//currentLon
 			float cur_p = delta_p * lonIndex;
 
@@ -96,9 +95,9 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 			}
 
 			//描画
-			Drawin::DrawLine(p[0], p[1], current_color, kBlendModeNormal, 
+			Drawin::DrawLine(p[0], p[2], current_color, kBlendModeNormal, 
 				vpMat, viewportMat, trans.mat);
-			Drawin::DrawLine(p[1], p[2], current_color, kBlendModeNormal,
+			Drawin::DrawLine(p[0], p[1], current_color, kBlendModeNormal,
 				vpMat, viewportMat, trans.mat);
 
 

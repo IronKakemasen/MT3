@@ -342,6 +342,22 @@ public:
 		return ret_vec4;
 	}
 
+	//最近接ポイントを求める
+	Vec4<float> GetClosestPoint(Vec4<float> segStart_, Vec4<float> segEnd_)
+	{
+		Vec4<float> start2Point = { x - segStart_.x,y - segStart_.y,z - segStart_.z,1 };
+		Vec4<float> start2End = { segEnd_.x - segStart_.x,segEnd_.y - segStart_.y,segEnd_.z - segStart_.z,1 };
+		start2Point.SetMagnitutde();
+		float dot = GetDotProductionResult(start2Point, start2End);
+		float magSquared = start2Point.magnitude * start2Point.magnitude;
+		float tmp = dot / magSquared;
+
+		return { start2End.x * tmp + segStart_.x,start2End.y * tmp + segStart_.y,start2End.z * tmp + segStart_.z ,1 };
+	}
+
+
+
+
 };
 
 //==================================Operand============================================================

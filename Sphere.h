@@ -1,9 +1,9 @@
 #pragma once
 #include "ObjectManager.h"
 
-class Sphere :GameObject
+class Sphere :public GameObject
 {
-private:
+public:
 
 	inline static int instantiatedCounter = -1;
 	float radius;
@@ -27,6 +27,7 @@ public:
 		trans.pos = pos_;
 		radius = radius_;
 		current_color = { 100,100,100,255 };
+
 	}
 
 	~Sphere() {};

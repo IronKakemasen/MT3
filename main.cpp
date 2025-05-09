@@ -28,36 +28,43 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//BaseDebugger
 	MyDebug myDebug;
 
+	Segment segment;
+	segment.start = { -2.0f,-1.0f,0.0f,1.0f };
+	segment.end = { 3.0f,2.0f,2.0f,1.0f };
+
+	Vec4<float> point = { -1.5f,0.6f ,0.6f ,1.0f };
+
 
 	//キャメラのorigin
-	Camera* original_camera = new Camera({ 0.0f,160.0f,-300.0f,1.0f });
+	Camera* original_camera = new Camera({ 0.0f,2.5f,-1.5f,1.0f });
 	//三角形のオリジン
-	Triangle* original_triangle = new Triangle
-	(
-		{ 0.0f,200.0f,1.0f,1.0f },
-		{ -200,0, 1.0f,1.0f },
-		{ 200.0f, 0.0f, 1.0f, 1.0f },
-		{ 0.0f,-100,500.0f,1.0f }
-	);
+	//Triangle* original_triangle = new Triangle
+	//(
+	//	{ 0.0f,1.0f,0.0f,1.0f },
+	//	{ -1.0f, 0.0f,0.0f ,1.0f},
+	//	{ 1.0f, 0.0f, 0.0f, 1.0f },
+	//	{ 0.0f,0.0f,2.0f,1.0f }
+	//);
 	//四角形のオリジン
-	MyRectangle* original_rectangle = new MyRectangle(100, 100, { 0,0,0,1 });
+	//MyRectangle* original_rectangle = new MyRectangle(1, 1, { 0,0,2.0f,1 });
 	//立方体のオリジン
-	Cube* original_cube = new Cube(200, 200, 200, { 0,0,0,1 });
+	//Cube* original_cube = new Cube(1, 1, 1, { 0,0,2.0f,1 });
 	//球体のオリジン
-	Sphere* original_sphere = new Sphere(100, { 0,100,0,1 });
+	Sphere sphere1(0.5f, point);
+	sphere1.commonScale *= 0.1f;
+	sphere1.current_color = { 255,0,0,255 };
+
+	Sphere sphere2(0.5f, point);
+	sphere2.commonScale *= 0.1f;
+	sphere2.current_color = { 255,255,0,255 };
 
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
 	//プレハブ登録
 	objManager.prefab.camera = original_camera;				//キャメラ
-	objManager.prefab.triangle = original_triangle;			//三角形
-	objManager.prefab.rectangle = original_rectangle;		//四角形
-	objManager.prefab.cube = original_cube;					//直方体
-	objManager.prefab.sphere = original_sphere;				//球体
 	//インスタンス化(カメラだけ)
 	objManager.Instantiate2(*original_camera);
-	objManager.Instantiate2(*original_sphere);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -77,6 +84,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if((*itr).isActive) (*itr).Update();
 		}
 
+		sphere1.Update();
+		sphere1.Render(Camera::VpMat,Camera::ViewportMat,Camera::Normalized_cVec);
+
+
+		Vec4<float> closeP = point.GetClosestPoint(segment.start, segment.end);
+
+		sphere2.trans.pos = closeP;
+		sphere2.Update();
+		sphere2.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+
+
+		Drawin::DrawLine(segment.start, segment.end, { 255,255,255,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
+
+
+
 		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
 		ImGui::Begin("iroiro");
@@ -85,6 +107,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			myDebug.myDebugFuncs[i]();
 		}
 		ImGui::End();
+
 
 		if (DebugSwitcher::buttons["GameObj"])
 		{
@@ -95,50 +118,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				ImGui::End();
 			}
 		}
+
+		
 #endif // DEBUG
 
 		//================================================描画=====================================================
-		//ゲームオブジェクト
-		for (auto const itr : objManager.GetObjData())
-		{
-			if ((*itr).isActive) (*itr).Render(Camera::VpMat, Camera::ViewportMat,
-				Camera::Normalized_cVec);
-		}
-		objManager.SetIsUpdating(0);
+
+
+
+
+
+
 
 
 
 		//=======================================インスタンス化(とりまmainで)=====================================================
-		//NAW
-		for (auto& [key, value] : myDebug.prefabInsta.prefabDic)
-		{
-			if (value)
-			{
-				if (key == "Rectangle")
-				{
-					objManager.Instantiate2(*objManager.prefab.rectangle);
-				}
-
-				else if (key == "Triangle")
-				{
-					objManager.Instantiate2(*objManager.prefab.triangle);
-				}
-
-				else if (key == "Cube")
-				{
-					objManager.Instantiate2(*objManager.prefab.cube);
-				}
-				
-				else if (key == "Sphere")
-				{
-					objManager.Instantiate2(*objManager.prefab.sphere);
-				}
-
-				value = false;
-
-			}
-		}
-
 
 		// フレームの終了
 		Novice::EndFrame();

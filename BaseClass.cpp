@@ -79,10 +79,8 @@ uint32_t GetIntColor(Vec4<float> src_color)
 Vec4<float> GetScreenVec(Vec4<float> local_vec, Mat4 vpMat, Mat4 viewportMat,Mat4 wMat = 0.0f)
 {
 	//World変換
-	Vec4<float> world_vec = local_vec.GetMultipliedByMat(wMat);
-
-	//同次座標変換
-	world_vec = world_vec.GetMultipliedByMat(vpMat);
+	Mat4 wvp = wMat.Multiply(vpMat);
+	Vec4<float> world_vec = local_vec.GetMultipliedByMat(wvp);
 
 	//perspectDivide
 	Vec4<float> screen_vec =
@@ -100,7 +98,7 @@ Vec4<float> GetScreenVec(Vec4<float> local_vec, Mat4 vpMat, Mat4 viewportMat,Mat
 
 //ラインを描画する
 void Drawin::DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, BlendMode mode,
-	Mat4 vpMat, Mat4 viewportMat, Mat4 wMat = 0.0f)
+	Mat4 vpMat, Mat4 viewportMat, Mat4 wMat)
 {
 	Vec4<float> screen_st = GetScreenVec(w_st, vpMat, viewportMat, wMat);
 	Vec4<float> screen_end = GetScreenVec(w_end, vpMat, viewportMat, wMat);

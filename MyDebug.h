@@ -32,7 +32,6 @@ struct DebugSwitcher
 
 struct Grid
 {
-	static uint32_t const kSubdivision = 10;
 	Vec4<float> points[4];
 	Mat4 mat;
 
@@ -40,8 +39,8 @@ struct Grid
 	{
 		if (DebugSwitcher::buttons["Grid"])
 		{
-			int const klineSum = 13;
-			float const haba = 50.0f;
+			int const klineSum = 12;
+			float const haba = 0.5f;
 
 			for (int i = 0; i < klineSum;++i)
 			{
@@ -68,12 +67,10 @@ struct Grid
 
 	Grid()
 	{
-		//horizontal
-		points[0] = { -300 ,0,0,1.0f };
-		//depth 
-		points[1] = { 0.0f,0.0f,-300.0f,1.0f };
-		points[2] = { 300 ,0,0 ,1.0f };
-		points[3] = { 0,0,300.0f ,1.0f };
+		points[0] = { -3 ,0,0,1.0f };
+		points[1] = { 0.0f,0.0f,0,1.0f };
+		points[2] = { 3 ,0,0 ,1.0f };
+		points[3] = { 0,0,6,1.0f };
 
 	}
 };
@@ -133,10 +130,9 @@ struct PrefabInstantiation
 
 struct MyDebug
 {
-	static int const kFuncSum = 3;
+	static int const kFuncSum = 2;
 	DebugSwitcher debugSwicther;
 	Grid grid;
-	PrefabInstantiation prefabInsta;
 
 	std::function<void()> myDebugFuncs[kFuncSum];
 
@@ -144,7 +140,6 @@ struct MyDebug
 	{
 		myDebugFuncs[0] = debugSwicther;
 		myDebugFuncs[1] = grid;
-		myDebugFuncs[2] = prefabInsta;
 	}
 
 };
