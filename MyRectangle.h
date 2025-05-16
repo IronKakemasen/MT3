@@ -1,9 +1,9 @@
 #pragma once
 #include "ObjectManager.h"
 
-class MyRectangle :GameObject
+class MyRectangle :public GameObject
 {
-private:
+public:
 
 	RectShape localShape;
 	inline static int instantiatedCounter = -1;

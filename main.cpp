@@ -14,7 +14,36 @@
 
 const char kWindowTitle[] = "Title";
 
+Vec4<float> GetPerpendiculer(Vec4<float> point_)
+{
+	Vec4<float> ret_vec;
 
+	if (point_.x != 0.0f || point_.y != 0.0f)
+	{
+		ret_vec = { -point_.y ,point_.x,0.0f,1.0f };
+	}
+
+	else
+	{
+		ret_vec = { 0.0f ,-point_.z,point_.y,1.0f };
+	}
+
+	return ret_vec;
+}
+
+bool IsCollidedWithPlane(float radius,Vec4<float>cPos_,Vec4<float> normal_, Vec4<float> pos_)
+{
+	bool ret = false;
+	float d = normal_.GetDotProductionResult(normal_,pos_);
+	float d2 = cPos_.GetDotProductionResult(normal_, cPos_) - d;
+
+	if (fabsf(d2) >= radius)
+	{
+		ret = true;
+	}
+
+	return ret;
+}
 
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -30,7 +59,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//BaseDebugger
 	MyDebug myDebug;
 	//キャメラのorigin
-	Camera* original_camera = new Camera({ 0.0f,2.5f,-1.5f,1.0f });
+	Camera* original_camera = new Camera({ 0.0f,2.5f,-2.5f,1.0f });
 	//三角形のオリジン
 	//Triangle* original_triangle = new Triangle
 	//(
@@ -45,10 +74,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//Cube* original_cube = new Cube(1, 1, 1, { 0,0,2.0f,1 });
 	Sphere sphere1(1.0f, {-1,0,0,1});
 	sphere1.current_color = { 255,255,255,255 };
-
-	Sphere sphere2(1.0f, { 1,0,0,1 });
-	sphere2.current_color = { 255,255,255,255 };
-
+	MyRectangle rect;
+	rect.trans.pos = { 0,2,-1,1 };
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
@@ -76,8 +103,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		sphere1.Update();
-		sphere2.Update();
-		if (sphere1.SphereCollision(sphere2))
+		Vec4<float> normal = { 0,1,0,1 };
+		Vec4<float> originP = { 0,0,0,1 };
+
+		Vec4<float> pointA = GetPerpendiculer(normal);
+		Vec4<float> pointB = pointA * -1.0f;
+		//Vec4<float> A2origin = originP - pointA;
+		//Vec4<float> origin2normal= normal - originP;
+
+		Vec4<float> crossVec = normal.GetCross(pointA);
+		Vec4<float> reversedCrossVec = crossVec * -1.0f;
+
+		rect.localShape.LT = pointA ;
+		rect.localShape.RT = crossVec ;
+		rect.localShape.RB = pointB;
+		rect.localShape.LB = reversedCrossVec;
+		rect.Update();
+
+		if (IsCollidedWithPlane(sphere1.radius, sphere1.trans.pos, normal, rect.trans.pos))
 		{
 			sphere1.current_color = { 255,0,0,255 };
 		}
@@ -85,10 +128,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		else
 		{
 			sphere1.current_color = { 255,255,255,255 };
+
 		}
-
-
-
 
 		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
@@ -110,13 +151,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
-		ImGui::Begin("S1");
-		sphere1.Debug();
+		ImGui::Begin("P1");
+		rect.Debug();
 		ImGui::End();
 
-		ImGui::Begin("S2");
-		sphere2.Debug();
-		ImGui::End();
 
 
 		
@@ -124,8 +162,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//================================================描画=====================================================
 		sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
-		sphere2.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
-
+		rect.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 
 
 
