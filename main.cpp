@@ -15,6 +15,8 @@
 const char kWindowTitle[] = "Title";
 
 
+
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -27,14 +29,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//BaseDebugger
 	MyDebug myDebug;
-
-	Segment segment;
-	segment.start = { -2.0f,-1.0f,0.0f,1.0f };
-	segment.end = { 3.0f,2.0f,2.0f,1.0f };
-
-	Vec4<float> point = { -1.5f,0.6f ,0.6f ,1.0f };
-
-
 	//キャメラのorigin
 	Camera* original_camera = new Camera({ 0.0f,2.5f,-1.5f,1.0f });
 	//三角形のオリジン
@@ -49,14 +43,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//MyRectangle* original_rectangle = new MyRectangle(1, 1, { 0,0,2.0f,1 });
 	//立方体のオリジン
 	//Cube* original_cube = new Cube(1, 1, 1, { 0,0,2.0f,1 });
-	//球体のオリジン
-	Sphere sphere1(0.5f, point);
-	sphere1.commonScale *= 0.1f;
-	sphere1.current_color = { 255,0,0,255 };
+	Sphere sphere1(1.0f, {-1,0,0,1});
+	sphere1.current_color = { 255,255,255,255 };
 
-	Sphere sphere2(0.5f, point);
-	sphere2.commonScale *= 0.1f;
-	sphere2.current_color = { 255,255,0,255 };
+	Sphere sphere2(1.0f, { 1,0,0,1 });
+	sphere2.current_color = { 255,255,255,255 };
 
 
 	//ゲームオブジェクトを管理する箱			
@@ -85,17 +76,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		sphere1.Update();
-		sphere1.Render(Camera::VpMat,Camera::ViewportMat,Camera::Normalized_cVec);
-
-
-		Vec4<float> closeP = point.GetClosestPoint(segment.start, segment.end);
-
-		sphere2.trans.pos = closeP;
 		sphere2.Update();
-		sphere2.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+		if (sphere1.SphereCollision(sphere2))
+		{
+			sphere1.current_color = { 255,0,0,255 };
+		}
 
+		else
+		{
+			sphere1.current_color = { 255,255,255,255 };
+		}
 
-		Drawin::DrawLine(segment.start, segment.end, { 255,255,255,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
 
 
 
@@ -119,10 +110,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
+		ImGui::Begin("S1");
+		sphere1.Debug();
+		ImGui::End();
+
+		ImGui::Begin("S2");
+		sphere2.Debug();
+		ImGui::End();
+
+
 		
 #endif // DEBUG
 
 		//================================================描画=====================================================
+		sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+		sphere2.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 
 
 

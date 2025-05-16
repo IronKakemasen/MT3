@@ -261,6 +261,9 @@ UpgradeLog*.htm
 ServiceFabricBackup/
 *.rptproj.bak
 
+DebugLog/
+Dumps/
+
 # SQL Server files
 *.mdf
 *.ldf

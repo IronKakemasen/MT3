@@ -38,7 +38,20 @@ public:
 
 	Mat4 Get_MyMat() { return trans.mat; };
 	Vec4<float> Get_MyPos() { return trans.pos; };
+	bool SphereCollision(Sphere const& other_)
+	{
+		bool ret_flag = false;
 
+		float sumRadius = radius + other_.radius;
+		Vec4<float> diff = trans.pos - other_.trans.pos;
+		diff.SetMagnitutde();
+		if (diff.magnitude <= sumRadius)
+		{
+			ret_flag = true;
+		}
+
+		return ret_flag;
+	}
 
 #if defined(_DEBUG)
 	virtual void Debug() override;
