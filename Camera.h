@@ -2,37 +2,29 @@
 #include "BaseClass.h"
 #include "ObjectManager.h"
 
-class Camera:GameObject
+class Camera:public GameObject
 {
 private:
 
-	Vec4<float> LT;
-	Vec4<float> RT;
-	Vec4<float> LB;
-	Vec4<float> RB;
-
-	inline static int instantiatedCounter = -1;
+	Vector4<float> LT;
+	Vector4<float> RT;
+	Vector4<float> LB;
+	Vector4<float> RB;
 
 public:
 
 	//NAW
-	inline static Mat4 ViewportMat;
-	inline static Mat4 VpMat;
-	inline static Vec4<float> Normalized_cVec;
+	inline static Matrix4 ViewportMat;
+	inline static Matrix4 VpMat;
+	inline static Vector4<float> Normalized_cVec;
 
 	//Constructor
 	Camera() {};
-	Camera(Camera& camera_) 
-	{
-		*this = camera_;		
-		Camera::instantiatedCounter++;
-		name = "Camera[" + std::to_string(instantiatedCounter) + "]Copy";
-	};
 
-	Camera(Vec4<float> pos_)
+	Camera(Vector4<float> pos_)
 	{
-		updatePriNo = 0;
-		name = "Camera[" + std::to_string(instantiatedCounter) + "]Copy";
+		updatePriNo = static_cast<int>(ObjectUpdatePriorityNo::kCamera);
+		name = "Camera[" + std::to_string(count) + "]Copy";
 		colRect.SetVertex(Torima::windowWidth, Torima::windowHeight);
 		trans.pos = pos_;
 		trans.rotateTheta.x = 180.0f / 5.0f;
@@ -42,13 +34,16 @@ public:
 	//Destructor
 	~Camera() {};
 
-	Mat4 Get_MyMat() { return trans.mat; };
-	Vec4<float> Get_MyPos() { return trans.pos; };
-
+	Matrix4 Get_MyMat() { return trans.mat; };
+	Vector4<float> Get_MyPos() { return trans.pos; };
+	Camera* GetAddress()
+	{
+		return this;
+	}
 
 	virtual void Update() override;
 	virtual void Initialize() override;
-	virtual void Render(Mat4 vpMat, Mat4 viewportMat, Vec4<float> camerDir) override;
+	virtual void Render(Matrix4 vpMat, Matrix4 viewportMat, Vector4<float> camerDir) override;
 
 
 #if defined(_DEBUG)

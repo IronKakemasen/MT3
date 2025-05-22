@@ -20,7 +20,7 @@ public:
 		name = "Triangle[" + std::to_string(instantiatedCounter) + "]Copy";
 	};
 
-	Triangle(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_, Vec4<float> pos_)
+	Triangle(Vector4<float> Tv_, Vector4<float> Rv_, Vector4<float> Lv_, Vector4<float> pos_)
 	{
 		renderShape.SetVertex(Tv_, Rv_, Lv_);
 		name = "Triangle[" + std::to_string(instantiatedCounter) + "]Copy";
@@ -34,10 +34,10 @@ public:
 
 	virtual void Update() override;
 	virtual void Initialize() override;
-	virtual void Render(Mat4 vpMat, Mat4 viewportMat, Vec4<float> camerDir) override;
+	virtual void Render(Matrix4 vpMat, Matrix4 viewportMat, Vector4<float> camerDir) override;
 
-	Mat4 Get_MyMat() { return trans.mat; };
-	Vec4<float> Get_MyPos() { return trans.pos; };
+	Matrix4 Get_MyMat() { return trans.mat; };
+	Vector4<float> Get_MyPos() { return trans.pos; };
 
 
 

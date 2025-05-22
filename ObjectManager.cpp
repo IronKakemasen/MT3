@@ -10,10 +10,6 @@ void ObjectManager::SortObject()
 
 void ObjectManager::Destroy()
 {
-	//if (prefab.camera != nullptr)delete prefab.camera;
-	//if (prefab.triangle != nullptr)delete prefab.triangle;
-	//if (prefab.rectangle != nullptr)delete prefab.rectangle;
-
 	for (auto const itr : objData)
 	{
 		delete& (*itr);

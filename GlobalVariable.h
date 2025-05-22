@@ -1,5 +1,4 @@
 #pragma once
-#include "VectorAndMat.h"
 
 namespace Torima
 {

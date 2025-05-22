@@ -7,12 +7,12 @@ void Triangle::Update()
 
 }
 
-void Triangle::Render(Mat4 vpMat, Mat4 viewportMat,Vec4<float> camerDir)
+void Triangle::Render(Matrix4 vpMat, Matrix4 viewportMat,Vector4<float> camerDir)
 {
 	
-	Vec4<float> screen_Tv = GetScreenVec(renderShape.local_Tv, vpMat, viewportMat, trans.mat);
-	Vec4<float> screen_Rv = GetScreenVec(renderShape.local_Rv, vpMat, viewportMat, trans.mat);
-	Vec4<float> screen_Lv = GetScreenVec(renderShape.local_Lv, vpMat, viewportMat, trans.mat);
+	Vector4<float> screen_Tv = GetScreenVec(renderShape.local_Tv, vpMat, viewportMat, trans.mat);
+	Vector4<float> screen_Rv = GetScreenVec(renderShape.local_Rv, vpMat, viewportMat, trans.mat);
+	Vector4<float> screen_Lv = GetScreenVec(renderShape.local_Lv, vpMat, viewportMat, trans.mat);
 
 	//表か裏か
 	Torima::Surface sur;

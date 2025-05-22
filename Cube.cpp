@@ -8,7 +8,7 @@ void Cube::Update()
 
 }
 
-void Cube::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> camerDir)
+void Cube::Render(Matrix4 vpMat, Matrix4 viewportMat, [[maybe_unused]] Vector4<float> camerDir)
 {
 	RectShape screen_rect[6];
 
@@ -55,17 +55,17 @@ void Cube::Debug()
 
 void Cube::SetSurface(float width_, float height_, float depth_)
 {
-	Vec4<float> tmpScale = { 1.0f,1.0f,1.0f,1.0f };
-	Vec4<float> tmpLocal_pos = { 0.0f,0.0f,depth_ * 0.5f,1.0f };
+	Vector4<float> tmpScale = { 1.0f,1.0f,1.0f,1.0f };
+	Vector4<float> tmpLocal_pos = { 0.0f,0.0f,depth_ * 0.5f,1.0f };
 
-	auto tmpFunc = [tmpScale](RectShape& rectShape_, Vec4<float> const rotate_, Vec4<float> const tmpPos_)
+	auto tmpFunc = [tmpScale](RectShape& rectShape_, Vector4<float> const rotate_, Vector4<float> const tmpPos_)
 		{
-			Mat4 tmpMat = Get_STRMat3D(tmpScale, rotate_, tmpPos_);
+			Matrix4 tmpMat = Get_STRMat3D(tmpScale, rotate_, tmpPos_);
 
-			rectShape_.LT = rectShape_.LT.GetMultipliedByMat(tmpMat);
-			rectShape_.RT = rectShape_.RT.GetMultipliedByMat(tmpMat);
-			rectShape_.LB = rectShape_.LB.GetMultipliedByMat(tmpMat);
-			rectShape_.RB = rectShape_.RB.GetMultipliedByMat(tmpMat);
+			rectShape_.LT = rectShape_.LT.GetMultiply(tmpMat);
+			rectShape_.RT = rectShape_.RT.GetMultiply(tmpMat);
+			rectShape_.LB = rectShape_.LB.GetMultiply(tmpMat);
+			rectShape_.RB = rectShape_.RB.GetMultiply(tmpMat);
 		};
 
 	local_surfaces[0].SetVertex(width_, depth_);	//上面

@@ -7,7 +7,7 @@ void MyRectangle::Update()
 
 }
 
-void MyRectangle::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]]Vec4<float> camerDir)
+void MyRectangle::Render(Matrix4 vpMat, Matrix4 viewportMat, [[maybe_unused]]Vector4<float> camerDir)
 {
 	RectShape screen_rect;
 
@@ -39,7 +39,7 @@ void MyRectangle::Initialize()
 void MyRectangle::Debug()
 {
 	if (ImGui::Button("isActive"))isActive = !isActive;
-	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos));
+	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos),0.05f);
 	ImGui::DragFloat4("rotate", reinterpret_cast<float*>(&trans.rotateTheta), 0.5f);
 }
 #endif // DEBUG

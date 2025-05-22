@@ -8,7 +8,7 @@ void Sphere::Update()
 
 }
 
-void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> camerDir)
+void Sphere::Render(Matrix4 vpMat, Matrix4 viewportMat, [[maybe_unused]] Vector4<float> camerDir)
 {
 	float const kSubdivision = 24;
 	float const delta_t = Torima::kPi / kSubdivision;
@@ -16,13 +16,13 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 
 	auto VecConverter = [this](float cur_t, float delta_t, float cur_p, float delta_p, int type_)
 	{
-		Vec4<float> ret_vec;
+		Vector4<float> ret_vec;
 
 		switch (type_)
 		{
 		case 0:
 		{
-			Mat4 const aConverter =
+			Matrix4 const aConverter =
 			{
 				1.0f,0.0f,0.0f,0.0f,
 				0.0f,1.0f,0.0f,0.0f,
@@ -30,14 +30,14 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 				cosf(cur_t) * cosf(cur_p) * radius , sinf(cur_t) * radius , cosf(cur_t) * sinf(cur_p) * radius , 1.0f,
 			};
 
-			ret_vec = ret_vec.GetMultipliedByMat(aConverter);
+			ret_vec = ret_vec.GetMultiply(aConverter);
 
 			break;
 		}//case0
 
 		case 1:
 		{
-			Mat4 const bConverter =
+			Matrix4 const bConverter =
 			{
 				1.0f,0.0f,0.0f,0.0f,
 				0.0f,1.0f,0.0f,0.0f,
@@ -46,14 +46,14 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 				cosf(cur_t + delta_t)* sinf(cur_p)* radius,1.0f,
 			};
 
-			ret_vec = ret_vec.GetMultipliedByMat(bConverter);
+			ret_vec = ret_vec.GetMultiply(bConverter);
 
 			break;
 		}//case1
 
 		case 2:
 		{
-			Mat4 const cConverter =
+			Matrix4 const cConverter =
 			{
 				1.0f,0.0f,0.0f,0.0f,
 				0.0f,1.0f,0.0f,0.0f,
@@ -62,7 +62,7 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 				sinf(cur_t)* radius,cosf(cur_t)* sinf(cur_p + delta_p)* radius,1.0f,
 			};
 
-			ret_vec = ret_vec.GetMultipliedByMat(cConverter);
+			ret_vec = ret_vec.GetMultiply(cConverter);
 
 			break;
 
@@ -76,7 +76,7 @@ void Sphere::Render(Mat4 vpMat, Mat4 viewportMat, [[maybe_unused]] Vec4<float> c
 	//緯度の方向に分割(-0.5Pi <= cur_t <= 0.5Pi)
 	for (uint8_t latIndex = 0; latIndex < kSubdivision; ++latIndex)
 	{
-		Vec4<float> p[3];
+		Vector4<float> p[3];
 
 		//currentLat
 		float cur_t = -Torima::kPi * 0.5f + delta_t * latIndex;

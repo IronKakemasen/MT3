@@ -2,7 +2,7 @@
 
 void Transform::Clear()
 {
-	Mat4 tmpMat;
+	Matrix4 tmpMat;
 	mat = tmpMat;
 	pos = { 0.0f, 0.0f, 0.0f,1.0f };
 	for (auto itr = buff_pos.begin(); itr != buff_pos.end(); ++itr)
@@ -18,7 +18,7 @@ void Transform::Clear()
 }
 
 //頂点設定
-void TriangleShape::SetVertex(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_)
+void TriangleShape::SetVertex(Vector4<float> Tv_, Vector4<float> Rv_, Vector4<float> Lv_)
 {
 	//TopVertex
 	local_Tv = Tv_;
@@ -30,15 +30,15 @@ void TriangleShape::SetVertex(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_)
 
 
 //表か裏か
-Torima::Surface TriangleShape::GetSurfaceInfo(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_, Vec4<float> cameraVec)
+Torima::Surface TriangleShape::GetSurfaceInfo(Vector4<float> Tv_, Vector4<float> Rv_, Vector4<float> Lv_, Vector4<float> cameraVec)
 {
 	Torima::Surface ret_result;
 
-	Vec4<float> t2r = Rv_ - Tv_;
-	Vec4<float> r2l = Lv_ - Rv_;
+	Vector4<float> t2r = Rv_ - Tv_;
+	Vector4<float> r2l = Lv_ - Rv_;
 
 	//クロス積
-	Vec4<float> crossVec = t2r.GetCross(r2l);
+	Vector4<float> crossVec = t2r.GetCross(r2l);
 
 	//カメラベクトルと内積
 	float dotPro = cameraVec.GetDotProductionResult(cameraVec, crossVec);
@@ -65,7 +65,7 @@ void RectShape::SetVertex(float width_, float height_)
 	RB.y = -height_ / 2.0f;
 }
 
-uint32_t GetIntColor(Vec4<float> src_color)
+uint32_t GetIntColor(Vector4<float> src_color)
 {
 	src_color.x = roundf(src_color.x);
 	src_color.y = roundf(src_color.y);
@@ -76,14 +76,14 @@ uint32_t GetIntColor(Vec4<float> src_color)
 		0x00000100 * (int)src_color.z + 0x00000001 * (int)src_color.w);
 }
 
-Vec4<float> GetScreenVec(Vec4<float> local_vec, Mat4 vpMat, Mat4 viewportMat,Mat4 wMat = 0.0f)
+Vector4<float> GetScreenVec(Vector4<float> local_vec, Matrix4 vpMat, Matrix4 viewportMat,Matrix4 wMat = 0.0f)
 {
 	//World変換
-	Mat4 wvp = wMat.Multiply(vpMat);
-	Vec4<float> world_vec = local_vec.GetMultipliedByMat(wvp);
+	Matrix4 wvp = wMat.Multiply(vpMat);
+	Vector4<float> world_vec = local_vec.GetMultiply(wvp);
 
 	//perspectDivide
-	Vec4<float> screen_vec =
+	Vector4<float> screen_vec =
 	{
 		world_vec.x / world_vec.w,
 		world_vec.y / world_vec.w,
@@ -92,16 +92,16 @@ Vec4<float> GetScreenVec(Vec4<float> local_vec, Mat4 vpMat, Mat4 viewportMat,Mat
 	};
 
 	//ビューポート変換
-	return screen_vec.GetMultipliedByMat(viewportMat);
+	return screen_vec.GetMultiply(viewportMat);
 
 }
 
 //ラインを描画する
-void Drawin::DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, BlendMode mode,
-	Mat4 vpMat, Mat4 viewportMat, Mat4 wMat)
+void Drawin::DrawLine(Vector4<float> w_st, Vector4<float> w_end, Vector4<float> color, BlendMode mode,
+	Matrix4 vpMat, Matrix4 viewportMat, Matrix4 wMat)
 {
-	Vec4<float> screen_st = GetScreenVec(w_st, vpMat, viewportMat, wMat);
-	Vec4<float> screen_end = GetScreenVec(w_end, vpMat, viewportMat, wMat);
+	Vector4<float> screen_st = GetScreenVec(w_st, vpMat, viewportMat, wMat);
+	Vector4<float> screen_end = GetScreenVec(w_end, vpMat, viewportMat, wMat);
 
 	int tempColor = GetIntColor(color);
 
@@ -111,8 +111,8 @@ void Drawin::DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, Bl
 		(int)screen_end.x, (int)screen_end.y, tempColor);
 }
 
-void Drawin::DrawQuadWireframe(RectShape dst_rect, Vec4<float> color, BlendMode mode,
-	Mat4 vpMat, Mat4 viewportMat, Mat4 wMat)
+void Drawin::DrawQuadWireframe(RectShape dst_rect, Vector4<float> color, BlendMode mode,
+	Matrix4 vpMat, Matrix4 viewportMat, Matrix4 wMat)
 {
 	Drawin::DrawLine(dst_rect.LT, dst_rect.RT, color, mode, vpMat, viewportMat, wMat);
 	Drawin::DrawLine(dst_rect.RT, dst_rect.RB, color, mode, vpMat, viewportMat, wMat);

@@ -1,7 +1,7 @@
 #include <Novice.h>
 #include <vector>
 #include <algorithm>
-#include "VectorAndMat.h"
+#include "VectorAndMatrix.h"
 #include <iostream>
 #include <functional>
 #include "Camera.h"
@@ -14,9 +14,9 @@
 
 const char kWindowTitle[] = "Title";
 
-Vec4<float> GetPerpendiculer(Vec4<float> point_)
+Vector4<float> GetPerpendiculer(Vector4<float> point_)
 {
-	Vec4<float> ret_vec;
+	Vector4<float> ret_vec;
 
 	if (point_.x != 0.0f || point_.y != 0.0f)
 	{
@@ -31,17 +31,19 @@ Vec4<float> GetPerpendiculer(Vec4<float> point_)
 	return ret_vec;
 }
 
-bool IsCollidedWithPlane(float radius,Vec4<float>cPos_,Vec4<float> normal_, Vec4<float> pos_)
+bool IsCollidedWithPlane(float radius,Vector4<float>cPos_,Vector4<float> normal_, Vector4<float> pos_)
 {
 	bool ret = false;
-	float d = normal_.GetDotProductionResult(normal_,pos_);
-	float d2 = cPos_.GetDotProductionResult(normal_, cPos_) - d;
 
-	if (fabsf(d2) >= radius)
+	float d = normal_.GetDotProductionResult(normal_, pos_);
+	float nande = cPos_.GetDotProductionResult(normal_, cPos_);
+	float d2 = nande - d;
+	
+
+	if (fabsf(d2) <= radius)
 	{
 		ret = true;
 	}
-
 	return ret;
 }
 
@@ -58,8 +60,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//BaseDebugger
 	MyDebug myDebug;
-	//キャメラのorigin
-	Camera* original_camera = new Camera({ 0.0f,2.5f,-2.5f,1.0f });
+	//キャメラ
+	Camera* camera = new Camera({ 0.0f,2.5f,-2.5f,1.0f });
+
+
 	//三角形のオリジン
 	//Triangle* original_triangle = new Triangle
 	//(
@@ -72,18 +76,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//MyRectangle* original_rectangle = new MyRectangle(1, 1, { 0,0,2.0f,1 });
 	//立方体のオリジン
 	//Cube* original_cube = new Cube(1, 1, 1, { 0,0,2.0f,1 });
-	Sphere sphere1(1.0f, {-1,0,0,1});
+	Sphere sphere1(1.0f, {0,0,1,1});
 	sphere1.current_color = { 255,255,255,255 };
+
 	MyRectangle rect;
-	rect.trans.pos = { 0,2,-1,1 };
+	rect.trans.pos = { 0,2,1,1 };
+	Vector4<float> normal = { 0,1,0,1 };
+	Vector4<float> pointA = GetPerpendiculer(normal);
+	Vector4<float> pointB = pointA * -1.0f;
+	Vector4<float> crossVec = normal.GetCross(pointA);
+	Vector4<float> reversedCrossVec = crossVec * -1.0f;
+
+	rect.localShape.LT = pointA;
+	rect.localShape.RT = crossVec;
+	rect.localShape.RB = pointB;
+	rect.localShape.LB = reversedCrossVec;
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
-	//プレハブ登録
-	objManager.prefab.camera = original_camera;				//キャメラ
-	//インスタンス化(カメラだけ)
-	objManager.Instantiate2(*original_camera);
-
+	objManager.RegisterAsGameObject(camera->GetAddress());
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -96,29 +107,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//===============================================更新処理=================================================
 		//オブジェクトの更新処理（カメラ含む）
-		objManager.SetIsUpdating(1);
 		for (auto const itr : objManager.GetObjData())
 		{
 			if((*itr).isActive) (*itr).Update();
 		}
 
-		sphere1.Update();
-		Vec4<float> normal = { 0,1,0,1 };
-		Vec4<float> originP = { 0,0,0,1 };
-
-		Vec4<float> pointA = GetPerpendiculer(normal);
-		Vec4<float> pointB = pointA * -1.0f;
-		//Vec4<float> A2origin = originP - pointA;
-		//Vec4<float> origin2normal= normal - originP;
-
-		Vec4<float> crossVec = normal.GetCross(pointA);
-		Vec4<float> reversedCrossVec = crossVec * -1.0f;
-
-		rect.localShape.LT = pointA ;
-		rect.localShape.RT = crossVec ;
-		rect.localShape.RB = pointB;
-		rect.localShape.LB = reversedCrossVec;
 		rect.Update();
+		sphere1.Update();
+
 
 		if (IsCollidedWithPlane(sphere1.radius, sphere1.trans.pos, normal, rect.trans.pos))
 		{
@@ -156,6 +152,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::End();
 
 
+		ImGui::Begin("S1");
+		sphere1.Debug();
+		ImGui::End();
+
+
 
 		
 #endif // DEBUG
@@ -183,12 +184,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 	}
 
-	//NAW
-	if (objManager.prefab.camera != nullptr)delete objManager.prefab.camera;
-	if (objManager.prefab.triangle != nullptr)delete objManager.prefab.triangle;
-	if (objManager.prefab.rectangle != nullptr)delete objManager.prefab.rectangle;
-	if (objManager.prefab.cube != nullptr)delete objManager.prefab.cube;
-	if (objManager.prefab.sphere != nullptr)delete objManager.prefab.sphere;
 
 	//ゲームオブジェクトの解放
 	objManager.Destroy();

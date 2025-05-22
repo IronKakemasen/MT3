@@ -5,7 +5,7 @@ void Camera::Update()
 	//SRT行列をセット
 	trans.mat = Get_SRTMat3D(trans.scale, trans.rotateTheta, trans.pos);
 	//vp行列の作成
-	Camera::VpMat = Get_VPMat(trans.pos, trans.mat);
+	Camera::VpMat = Get_VPMat(trans.mat,trans.pos);
 	//viewport行列の作成
 	Camera::ViewportMat = Get_ViewportTransformation3D();
 	//カメラの方向ベクトル
@@ -13,8 +13,8 @@ void Camera::Update()
 
 }
 
-void Camera::Render([[maybe_unused]]Mat4 vpMat, [[maybe_unused]] Mat4 viewportMat, 
-	[[maybe_unused]] Vec4<float> camerDir)
+void Camera::Render([[maybe_unused]]Matrix4 vpMat, [[maybe_unused]] Matrix4 viewportMat, 
+	[[maybe_unused]] Vector4<float> camerDir)
 {
 
 

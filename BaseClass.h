@@ -3,7 +3,7 @@
 #if defined(_DEBUG)
 #include <ImGui.h>
 #endif // DEBUG
-#include "VectorAndMat.h"
+#include "VectorAndMatrix.h"
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -17,20 +17,20 @@ class Transform
 
 public:
 	//行列	
-	Mat4 mat;
+	Matrix4 mat;
 	//ポず
-	Vec4<float> pos;
+	Vector4<float> pos;
 	//バッファー
-	std::vector<Vec4<float>> buff_pos;
+	std::vector<Vector4<float>> buff_pos;
 	//スケール
-	Vec4<float> scale = { 1.0f, 1.0f ,1.0f,1.0f };		
+	Vector4<float> scale = { 1.0f, 1.0f ,1.0f,1.0f };		
 	// 三次元回転用
 	//回転（SRT）
-	Vec4<float> rotateTheta = { 0.0f, 0.0f, 0.0f,0.0f };
+	Vector4<float> rotateTheta = { 0.0f, 0.0f, 0.0f,0.0f };
 	//回転（STR）
-	Vec4<float> movementTheta = { 0.0f, 0.0f, 0.0f,0.0f };
+	Vector4<float> movementTheta = { 0.0f, 0.0f, 0.0f,0.0f };
 	//方向
-	Vec4<float> dir{ 1.0f, 1.0f ,1.0f ,1.0f};			
+	Vector4<float> dir{ 1.0f, 1.0f ,1.0f ,1.0f};			
 	//速さ
 	float deltaPos = 0;
 
@@ -46,17 +46,17 @@ public:
 
 	//ローカル頂点
 	//TopVertex
-	Vec4<float> local_Tv;
+	Vector4<float> local_Tv;
 	//RightVertex
-	Vec4<float> local_Rv;
+	Vector4<float> local_Rv;
 	//LeftVertex
-	Vec4<float> local_Lv;
+	Vector4<float> local_Lv;
 
 	//頂点設定
-	void SetVertex(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_);
+	void SetVertex(Vector4<float> Tv_, Vector4<float> Rv_, Vector4<float> Lv_);
 
 	//表か裏か
-	static Torima::Surface GetSurfaceInfo(Vec4<float> Tv_, Vec4<float> Rv_, Vec4<float> Lv_, Vec4<float> cameraVec);
+	static Torima::Surface GetSurfaceInfo(Vector4<float> Tv_, Vector4<float> Rv_, Vector4<float> Lv_, Vector4<float> cameraVec);
 
 };
 
@@ -66,10 +66,10 @@ class RectShape
 public:
 
 	//ローカル頂点
-	Vec4<float> LT;
-	Vec4<float> RT;
-	Vec4<float> LB;
-	Vec4<float> RB;
+	Vector4<float> LT;
+	Vector4<float> RT;
+	Vector4<float> LB;
+	Vector4<float> RB;
 
 	//頂点設定
 	void SetVertex(float width_, float height_);
@@ -77,22 +77,22 @@ public:
 
 struct Segment
 {
-	Vec4<float> start;
-	Vec4<float> end;
+	Vector4<float> start;
+	Vector4<float> end;
 };
 
 namespace Drawin
 {
-	void DrawLine(Vec4<float> w_st, Vec4<float> w_end, Vec4<float> color, BlendMode mode,
-		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat= 0.0f);
+	void DrawLine(Vector4<float> w_st, Vector4<float> w_end, Vector4<float> color, BlendMode mode,
+		Matrix4 vpMat, Matrix4 viewportMat, Matrix4 wMat= 0.0f);
 
-	void DrawQuadWireframe(RectShape dst_rect, Vec4<float> color, BlendMode mode,
-		Mat4 vpMat, Mat4 viewportMat, Mat4 wMat = 0.0f);
+	void DrawQuadWireframe(RectShape dst_rect, Vector4<float> color, BlendMode mode,
+		Matrix4 vpMat, Matrix4 viewportMat, Matrix4 wMat = 0.0f);
 
 }
 
 
 //カラーをintに変換
-uint32_t GetIntColor(Vec4<float> src_color);
+uint32_t GetIntColor(Vector4<float> src_color);
 //ローカル(ワールド)ベクトルをスクリーン座標に変換
-Vec4<float> GetScreenVec(Vec4<float> local_vec, Mat4 vpMat, Mat4 viewportMat, Mat4 wMat);
+Vector4<float> GetScreenVec(Vector4<float> local_vec, Matrix4 vpMat, Matrix4 viewportMat, Matrix4 wMat);

@@ -32,8 +32,8 @@ struct DebugSwitcher
 
 struct Grid
 {
-	Vec4<float> points[4];
-	Mat4 mat;
+	Vector4<float> points[4];
+	Matrix4 mat;
 
 	void operator()()
 	{

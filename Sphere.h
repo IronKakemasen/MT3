@@ -20,7 +20,7 @@ public:
 		name = "Sphere[" + std::to_string(instantiatedCounter) + "]Copy";
 	};
 
-	Sphere(float radius_, Vec4<float> pos_)
+	Sphere(float radius_, Vector4<float> pos_)
 	{
 		updatePriNo = 4;
 		name = "Sphere[" + std::to_string(instantiatedCounter) + "]Copy";
@@ -34,18 +34,18 @@ public:
 
 	virtual void Update() override;
 	virtual void Initialize() override;
-	virtual void Render(Mat4 vpMat, Mat4 viewportMat, Vec4<float> camerDir) override;
+	virtual void Render(Matrix4 vpMat, Matrix4 viewportMat, Vector4<float> camerDir) override;
 
-	Mat4 Get_MyMat() { return trans.mat; };
-	Vec4<float> Get_MyPos() { return trans.pos; };
+	Matrix4 Get_MyMat() { return trans.mat; };
+	Vector4<float> Get_MyPos() { return trans.pos; };
 	bool SphereCollision(Sphere const& other_)
 	{
 		bool ret_flag = false;
 
 		float sumRadius = radius + other_.radius;
-		Vec4<float> diff = trans.pos - other_.trans.pos;
-		diff.SetMagnitutde();
-		if (diff.magnitude <= sumRadius)
+		Vector4<float> diff = trans.pos - other_.trans.pos;
+		float mag = diff.GetMagnitutde();
+		if (mag <= sumRadius)
 		{
 			ret_flag = true;
 		}

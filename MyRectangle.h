@@ -19,7 +19,7 @@ public:
 		name = "Rectangle[" + std::to_string(instantiatedCounter) + "]Copy";
 	};
 
-	MyRectangle(float width_, float height_,Vec4<float> pos_)
+	MyRectangle(float width_, float height_,Vector4<float> pos_)
 	{
 		localShape.SetVertex(width_, height_);
 		name = "Rectangle[" + std::to_string(instantiatedCounter) + "]Copy";
@@ -32,10 +32,10 @@ public:
 
 	virtual void Update() override;
 	virtual void Initialize() override;
-	virtual void Render(Mat4 vpMat, Mat4 viewportMat, Vec4<float> camerDir) override;
+	virtual void Render(Matrix4 vpMat, Matrix4 viewportMat, Vector4<float> camerDir) override;
 
-	Mat4 Get_MyMat() { return trans.mat; };
-	Vec4<float> Get_MyPos() { return trans.pos; };
+	Matrix4 Get_MyMat() { return trans.mat; };
+	Vector4<float> Get_MyPos() { return trans.pos; };
 
 
 
