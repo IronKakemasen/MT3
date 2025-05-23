@@ -31,12 +31,12 @@ Vector4<float> GetPerpendiculer(Vector4<float> point_)
 	return ret_vec;
 }
 
-bool IsCollidedWithPlane(float radius,Vector4<float>cPos_,Vector4<float> normal_, Vector4<float> pos_)
+bool IsCollidedWithPlane(float radius,Vector4<float>sphere_cPos_,Vector4<float> normal_, Vector4<float> pos_)
 {
 	bool ret = false;
 
 	float d = normal_.GetDotProductionResult(normal_, pos_);
-	float nande = cPos_.GetDotProductionResult(normal_, cPos_);
+	float nande = sphere_cPos_.GetDotProductionResult(normal_, sphere_cPos_);
 	float d2 = nande - d;
 	
 
@@ -45,6 +45,30 @@ bool IsCollidedWithPlane(float radius,Vector4<float>cPos_,Vector4<float> normal_
 		ret = true;
 	}
 	return ret;
+}
+
+bool IsCollidedWithSegment(Vector4<float> plane_pos_, Vector4<float> plane_normal_, 
+	Vector4<float> segStart_, Vector4<float> segEnd_)
+{
+	bool ret = false;
+
+	Vector4<float> start2End = segEnd_ - segStart_;
+	float t;
+
+	float d = plane_normal_.GetDotProductionResult(plane_normal_, plane_pos_);
+	float startDotNormal = segStart_.GetDotProductionResult(segStart_, plane_normal_);
+	float segVecDotNormal = start2End.GetDotProductionResult(start2End, plane_normal_);
+
+	if (segVecDotNormal != 0)	t = (d - startDotNormal) / segVecDotNormal;
+	else return false;
+
+	if (t >= 0.0f && t <= 1.0)
+	{
+		ret = true;
+	}
+
+	return ret;
+
 }
 
 
@@ -92,6 +116,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rect.localShape.RB = pointB;
 	rect.localShape.LB = reversedCrossVec;
 
+	Segment segAB = { {-1.0f,0.0f,1.0f,1.0f},{1.0f,2.0f,1.0f,1.0f} };
+
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
 	objManager.RegisterAsGameObject(camera->GetAddress());
@@ -113,19 +139,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		rect.Update();
-		sphere1.Update();
 
 
-		if (IsCollidedWithPlane(sphere1.radius, sphere1.trans.pos, normal, rect.trans.pos))
-		{
-			sphere1.current_color = { 255,0,0,255 };
-		}
+		//sphere1.Update();
 
-		else
-		{
-			sphere1.current_color = { 255,255,255,255 };
 
-		}
 
 		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
@@ -151,10 +169,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		rect.Debug();
 		ImGui::End();
 
+		if (IsCollidedWithSegment(rect.trans.pos, normal, segAB.start, segAB.end))
+		{
+			Drawin::DrawLine(segAB.start, segAB.end, { 255,0,0,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
+		}
 
-		ImGui::Begin("S1");
-		sphere1.Debug();
-		ImGui::End();
+		else
+		{
+			Drawin::DrawLine(segAB.start, segAB.end, { 0,0,255,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
+		}
+
 
 
 
@@ -162,7 +186,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // DEBUG
 
 		//================================================描画=====================================================
-		sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+		//sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 		rect.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 
 
