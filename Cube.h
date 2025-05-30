@@ -1,11 +1,15 @@
 #pragma once
 #include "ObjectManager.h"
+#include "Rect.h"
 
-class Cube : GameObject
+
+class Cube : public GameObject
 {
+public:
 	//底面 = 0 , 上面 = 1 , 側面(右) = 2 , 側面(左) = 3 , 側面(奥) = 4 , 側面(手前) = 5
 	RectShape local_surfaces[6];
 	inline static int instantiatedCounter = -1;
+	CubeShape cubeShape;
 
 public:
 

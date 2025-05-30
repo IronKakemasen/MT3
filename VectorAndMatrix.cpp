@@ -214,6 +214,11 @@ Vector3 Vector3::GetMultiply(Matrix3 src_mat)
 	return ret_Vector3;
 }
 
+Vector3 operator*(Vector3 const& dst_vec, float const multipleNum)
+{
+	return { dst_vec.x * multipleNum, dst_vec.y * multipleNum, dst_vec.z * multipleNum };
+}
+
 //[ Vector4 ]
 Vector4<float> Vector4<float>::operator+=(float const addNum)
 {
@@ -304,10 +309,6 @@ Vector4<float> Vector4<float>::GetCross(Vector4<float> other)
 
 
 
-Vector3 operator*(Vector3 const& dst_vec, float const multipleNum)
-{
-	return { dst_vec.x * multipleNum,dst_vec.y * multipleNum ,1 };
-}
 Matrix4 operator*(Matrix4 const& dst_mat, float multipleNum)
 {
 	Matrix4 ret_mat;

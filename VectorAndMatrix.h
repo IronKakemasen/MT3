@@ -204,6 +204,7 @@ Vector4<T> operator*(Vector4<T> const& dst_vec, T const multipleNum)
 
 Matrix4 operator*(Matrix4 const& dst_mat, float multipleNum);
 Vector3 operator*(Vector3 const& dst_vec, float const multipleNum);
+Vector3 operator*(Vector3 const& dst_vec, float const multipleNum);
 
 
 

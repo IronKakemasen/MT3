@@ -11,8 +11,12 @@
 #include "MyDebug.h"
 #include "Cube.h"
 #include "Sphere.h"
+#include "Collision.h"
+
 
 const char kWindowTitle[] = "Title";
+
+float t = 0.0f;
 
 Vector4<float> GetPerpendiculer(Vector4<float> point_)
 {
@@ -53,7 +57,7 @@ bool IsCollidedWithSegment(Vector4<float> plane_pos_, Vector4<float> plane_norma
 	bool ret = false;
 
 	Vector4<float> start2End = segEnd_ - segStart_;
-	float t;
+	
 
 	float d = plane_normal_.GetDotProductionResult(plane_normal_, plane_pos_);
 	float startDotNormal = segStart_.GetDotProductionResult(segStart_, plane_normal_);
@@ -86,20 +90,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	MyDebug myDebug;
 	//キャメラ
 	Camera* camera = new Camera({ 0.0f,2.5f,-2.5f,1.0f });
-
-
-	//三角形のオリジン
-	//Triangle* original_triangle = new Triangle
-	//(
-	//	{ 0.0f,1.0f,0.0f,1.0f },
-	//	{ -1.0f, 0.0f,0.0f ,1.0f},
-	//	{ 1.0f, 0.0f, 0.0f, 1.0f },
-	//	{ 0.0f,0.0f,2.0f,1.0f }
-	//);
-	//四角形のオリジン
-	//MyRectangle* original_rectangle = new MyRectangle(1, 1, { 0,0,2.0f,1 });
 	//立方体のオリジン
-	//Cube* original_cube = new Cube(1, 1, 1, { 0,0,2.0f,1 });
+	Cube cube1(1, 1, 1, { 1,0,2.0f,1 });
+	Cube cube2(1, 1, 1, { -1,0,2.0f,1 });
+
+
 	Sphere sphere1(1.0f, {0,0,1,1});
 	sphere1.current_color = { 255,255,255,255 };
 
@@ -138,7 +133,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if((*itr).isActive) (*itr).Update();
 		}
 
-		rect.Update();
+		cube1.Update();
+		cube2.Update();
+		Rect3D thisRect;
+		thisRect.SetCube(cube1.Get_MyPos(), cube1.cubeShape.width, cube1.cubeShape.height, cube1.cubeShape.depth);
+		Rect3D otherRect;
+		otherRect.SetCube(cube2.Get_MyPos(), cube2.cubeShape.width, cube2.cubeShape.height, cube2.cubeShape.depth);
+
+		if (CollisionDetection(&thisRect, &otherRect))
+		{
+			cube1.current_color = { 255,0,0,255 };
+			cube2.current_color = { 255,0,0,255 };
+		}
+
+		else
+		{
+			cube1.current_color = { 0,0,255,255 };
+			cube2.current_color = { 0,0,255,255 };
+		}
+
 
 
 		//sphere1.Update();
@@ -165,19 +178,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
-		ImGui::Begin("P1");
-		rect.Debug();
+
+		ImGui::Begin("cube1");
+		cube1.Debug();
 		ImGui::End();
 
-		if (IsCollidedWithSegment(rect.trans.pos, normal, segAB.start, segAB.end))
-		{
-			Drawin::DrawLine(segAB.start, segAB.end, { 255,0,0,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
-		}
+		ImGui::Begin("cube2");
+		cube2.Debug();
+		ImGui::End();
 
-		else
-		{
-			Drawin::DrawLine(segAB.start, segAB.end, { 0,0,255,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
-		}
 
 
 
@@ -187,8 +196,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//================================================描画=====================================================
 		//sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
-		rect.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
-
+		cube1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+		cube2.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 
 
 

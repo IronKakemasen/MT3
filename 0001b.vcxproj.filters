@@ -38,6 +38,12 @@
     <ClCompile Include="VectorAndMatrix.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
@@ -53,5 +59,7 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="VectorAndMatrix.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="Rect.h" />
   </ItemGroup>
 </Project>

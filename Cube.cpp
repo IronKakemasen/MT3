@@ -46,7 +46,7 @@ void Cube::Initialize()
 void Cube::Debug()
 {
 	if (ImGui::Button("isActive"))isActive = !isActive;
-	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos));
+	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos),0.05f);
 	ImGui::DragFloat4("rotate", reinterpret_cast<float*>(&trans.rotateTheta), 0.5f);
 	ImGui::DragFloat4("scale", reinterpret_cast<float*>(&trans.scale), 0.01f);
 
@@ -55,6 +55,10 @@ void Cube::Debug()
 
 void Cube::SetSurface(float width_, float height_, float depth_)
 {
+	cubeShape.width = width_;
+	cubeShape.height = height_;
+	cubeShape.depth = depth_;
+
 	Vector4<float> tmpScale = { 1.0f,1.0f,1.0f,1.0f };
 	Vector4<float> tmpLocal_pos = { 0.0f,0.0f,depth_ * 0.5f,1.0f };
 
