@@ -134,28 +134,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		cube1.Update();
-		cube2.Update();
 		Rect3D thisRect;
 		thisRect.SetCube(cube1.Get_MyPos(), cube1.cubeShape.width, cube1.cubeShape.height, cube1.cubeShape.depth);
-		Rect3D otherRect;
-		otherRect.SetCube(cube2.Get_MyPos(), cube2.cubeShape.width, cube2.cubeShape.height, cube2.cubeShape.depth);
+		sphere1.Update();
+		Vector3 min = { thisRect.left,thisRect.bottom,thisRect.front };
+		Vector3 max = { thisRect.right,thisRect.top,thisRect.back };
 
-		if (CollisionDetection(&thisRect, &otherRect))
+		if (CollisionDetection::CubeAndSphere(min, max, sphere1.Get_MyPos(), sphere1.radius))
 		{
 			cube1.current_color = { 255,0,0,255 };
-			cube2.current_color = { 255,0,0,255 };
+			sphere1.current_color = { 255,0,0,255 };
 		}
 
 		else
 		{
 			cube1.current_color = { 0,0,255,255 };
-			cube2.current_color = { 0,0,255,255 };
+			sphere1.current_color = { 0,0,255,255 };
+
 		}
-
-
-
-		//sphere1.Update();
-
 
 
 		//===============================================デバッグ=================================================
@@ -183,8 +179,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		cube1.Debug();
 		ImGui::End();
 
-		ImGui::Begin("cube2");
-		cube2.Debug();
+		ImGui::Begin("sphere1");
+		sphere1.Debug();
 		ImGui::End();
 
 
@@ -195,9 +191,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // DEBUG
 
 		//================================================描画=====================================================
-		//sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+		sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 		cube1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
-		cube2.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 
 
 

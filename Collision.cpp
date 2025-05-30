@@ -1,6 +1,8 @@
 #include "Collision.h"
+#include <algorithm>
 
-bool CollisionDetection(Rect3D* const thisRect_, Rect3D* const otherRect_)
+
+bool CollisionDetection::AABB3D(Rect3D* const thisRect_, Rect3D* const otherRect_)
 {
 	bool ret = false;
 
@@ -12,9 +14,31 @@ bool CollisionDetection(Rect3D* const thisRect_, Rect3D* const otherRect_)
 			{
 				ret = true;
 			}
-
 		}
 	}
 
 	return ret;
+}
+
+
+bool CollisionDetection::CubeAndSphere(Vector3 min_, Vector3 max_, Vector4<float> spherePos_, float radius_)
+{
+	bool ret = false;
+
+	Vector4<float> clampedPos =
+	{
+		std::clamp(spherePos_.x,min_.x,max_.x),
+		std::clamp(spherePos_.y,min_.y,max_.y),
+		std::clamp(spherePos_.z,min_.z,max_.z),
+		1.0f
+	};
+
+	float dis = clampedPos.GetMagnitutde();
+	if (dis <= radius_)
+	{
+		ret = true;
+	}
+
+	return ret;
+	
 }
