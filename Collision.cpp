@@ -33,7 +33,7 @@ bool CollisionDetection::CubeAndSphere(Vector3 min_, Vector3 max_, Vector4<float
 		1.0f
 	};
 
-	float dis = clampedPos.GetMagnitutde();
+	float dis = (clampedPos - spherePos_).GetMagnitutde();
 	if (dis <= radius_)
 	{
 		ret = true;
