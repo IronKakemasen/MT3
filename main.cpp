@@ -16,7 +16,7 @@
 
 const char kWindowTitle[] = "Title";
 
-float t = 0.0f;
+
 
 Vector4<float> GetPerpendiculer(Vector4<float> point_)
 {
@@ -57,7 +57,7 @@ bool IsCollidedWithSegment(Vector4<float> plane_pos_, Vector4<float> plane_norma
 	bool ret = false;
 
 	Vector4<float> start2End = segEnd_ - segStart_;
-	
+	float t = 0.0f;
 
 	float d = plane_normal_.GetDotProductionResult(plane_normal_, plane_pos_);
 	float startDotNormal = segStart_.GetDotProductionResult(segStart_, plane_normal_);
@@ -94,10 +94,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Cube cube1(1, 1, 1, { 1,0,2.0f,1 });
 	Cube cube2(1, 1, 1, { -1,0,2.0f,1 });
 
-
-	Sphere sphere1(1.0f, {0,0,1,1});
-	sphere1.current_color = { 255,255,255,255 };
-
 	MyRectangle rect;
 	rect.trans.pos = { 0,2,1,1 };
 	Vector4<float> normal = { 0,1,0,1 };
@@ -111,7 +107,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	rect.localShape.RB = pointB;
 	rect.localShape.LB = reversedCrossVec;
 
-	Segment segAB = { {-1.0f,0.0f,1.0f,1.0f},{1.0f,2.0f,1.0f,1.0f} };
+	Segment segAB = { {-1.0f,0.0f,1.0f,1.0f},{1.0f,2.0f,2.0f,1.0f} };
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
@@ -136,23 +132,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		cube1.Update();
 		Rect3D thisRect;
 		thisRect.SetCube(cube1.Get_MyPos(), cube1.cubeShape.width, cube1.cubeShape.height, cube1.cubeShape.depth);
-		sphere1.Update();
-		Vector3 min = { thisRect.left,thisRect.bottom,thisRect.front };
-		Vector3 max = { thisRect.right,thisRect.top,thisRect.back };
+		Vector4<float> min = { thisRect.left,thisRect.bottom,thisRect.front,1.0f };
+		Vector4<float> max = { thisRect.right,thisRect.top,thisRect.back ,1.0f};
 
-		if (CollisionDetection::CubeAndSphere(min, max, sphere1.Get_MyPos(), sphere1.radius))
+		if (CollisionDetection::CollisionLineAABB(min, max, segAB.start, segAB.end))
 		{
 			cube1.current_color = { 255,0,0,255 };
-			sphere1.current_color = { 255,0,0,255 };
 		}
 
 		else
 		{
 			cube1.current_color = { 0,0,255,255 };
-			sphere1.current_color = { 0,0,255,255 };
 
 		}
-
 
 		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
@@ -179,9 +171,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		cube1.Debug();
 		ImGui::End();
 
-		ImGui::Begin("sphere1");
-		sphere1.Debug();
-		ImGui::End();
 
 
 
@@ -191,8 +180,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // DEBUG
 
 		//================================================描画=====================================================
-		sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
 		cube1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+		Drawin::DrawLine(segAB.start, segAB.end, { 255,0,0,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
 
 
 

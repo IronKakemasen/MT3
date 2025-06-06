@@ -235,3 +235,7 @@ Matrix4 Get_VPMat(Matrix4 cameraMat, Vector4<float> cameraPos = {0,0,0,1},Projec
 //STR行列の作成・取得
 Matrix3 Get_SRTMat2D(const float& delta_scaleX_, const float& delta_scaleY_, const float& delta_rotateTheta_,
 	const Vector3& delta_pos_);
+
+static Vector4<float> right = { 1.0f,0.0f,0.0f,1.0f };
+static Vector4<float> up = { 0.0f,1.0f,0.0f,1.0f };
+static Vector4<float> zAxis = { 0.0f,0.0f,1.0f,1.0f };
