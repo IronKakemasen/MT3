@@ -96,3 +96,9 @@ namespace Drawin
 uint32_t GetIntColor(Vector4<float> src_color);
 //ローカル(ワールド)ベクトルをスクリーン座標に変換
 Vector4<float> GetScreenVec(Vector4<float> local_vec, Matrix4 vpMat, Matrix4 viewportMat, Matrix4 wMat);
+
+inline float GetConvertedDegree(float theta)
+{
+	static float const inv180 = 1.0f / 180.0f;
+	return theta * 3.14159265359f * inv180;
+}

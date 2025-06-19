@@ -12,7 +12,7 @@
 #include "Cube.h"
 #include "Sphere.h"
 #include "Collision.h"
-
+#include "Rail.h"
 
 const char kWindowTitle[] = "Title";
 
@@ -89,25 +89,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//BaseDebugger
 	MyDebug myDebug;
 	//キャメラ
-	Camera* camera = new Camera({ 0.0f,2.5f,-2.5f,1.0f });
+	Camera* camera = new Camera({ 0.0f,33,-50,1.0f });
 	//立方体のオリジン
 	Cube cube1(1, 1, 1, { 1,0,2.0f,1 });
 	Cube cube2(1, 1, 1, { -1,0,2.0f,1 });
-
-	MyRectangle rect;
-	rect.trans.pos = { 0,2,1,1 };
-	Vector4<float> normal = { 0,1,0,1 };
-	Vector4<float> pointA = GetPerpendiculer(normal);
-	Vector4<float> pointB = pointA * -1.0f;
-	Vector4<float> crossVec = normal.GetCross(pointA);
-	Vector4<float> reversedCrossVec = crossVec * -1.0f;
-
-	rect.localShape.LT = pointA;
-	rect.localShape.RT = crossVec;
-	rect.localShape.RB = pointB;
-	rect.localShape.LB = reversedCrossVec;
-
-	Segment segAB = { {-1.0f,0.0f,1.0f,1.0f},{1.0f,2.0f,2.0f,1.0f} };
+	Rail rail;
+	
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
@@ -130,21 +117,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		cube1.Update();
-		Rect3D thisRect;
-		thisRect.SetCube(cube1.Get_MyPos(), cube1.cubeShape.width, cube1.cubeShape.height, cube1.cubeShape.depth);
-		Vector4<float> min = { thisRect.left,thisRect.bottom,thisRect.front,1.0f };
-		Vector4<float> max = { thisRect.right,thisRect.top,thisRect.back ,1.0f};
+		rail.Update();
 
-		if (CollisionDetection::CollisionLineAABB(min, max, segAB.start, segAB.end))
-		{
-			cube1.current_color = { 255,0,0,255 };
-		}
-
-		else
-		{
-			cube1.current_color = { 0,0,255,255 };
-
-		}
 
 		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
@@ -181,8 +155,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//================================================描画=====================================================
 		cube1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
-		Drawin::DrawLine(segAB.start, segAB.end, { 255,0,0,255 }, kBlendModeNormal, Camera::VpMat, Camera::ViewportMat);
-
+		rail.DrawPoints(Camera::VpMat, Camera::ViewportMat);
 
 
 

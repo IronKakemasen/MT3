@@ -19,17 +19,17 @@ void Cube::Render(Matrix4 vpMat, Matrix4 viewportMat, [[maybe_unused]] Vector4<f
 		screen_rect[i].LB = GetScreenVec(local_surfaces[i].LB, vpMat, viewportMat, trans.mat);
 		screen_rect[i].RB = GetScreenVec(local_surfaces[i].RB, vpMat, viewportMat, trans.mat);
 
-		//uint32_t tmpColor = GetIntColor(current_color);
-		////描画
-		//Novice::DrawQuad(
-		//	int(screen_rect[i].LT.x), int(screen_rect[i].LT.y),
-		//	int(screen_rect[i].RT.x), int(screen_rect[i].RT.y),
-		//	int(screen_rect[i].LB.x), int(screen_rect[i].LB.y),
-		//	int(screen_rect[i].RB.x), int(screen_rect[i].RB.y),
-		//	0, 0, 0, 0, 0, tmpColor);
+		uint32_t tmpColor = GetIntColor(current_color);
+		//描画
+		Novice::DrawQuad(
+			int(screen_rect[i].LT.x), int(screen_rect[i].LT.y),
+			int(screen_rect[i].RT.x), int(screen_rect[i].RT.y),
+			int(screen_rect[i].LB.x), int(screen_rect[i].LB.y),
+			int(screen_rect[i].RB.x), int(screen_rect[i].RB.y),
+			0, 0, 0, 0, 0, tmpColor);
 		
-		Drawin::DrawQuadWireframe(local_surfaces[i], 
-			current_color, kBlendModeNormal, vpMat, viewportMat, trans.mat);
+		//Drawin::DrawQuadWireframe(local_surfaces[i], 
+		//	current_color, kBlendModeNormal, vpMat, viewportMat, trans.mat);
 	}
 
 
