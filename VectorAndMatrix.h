@@ -71,6 +71,7 @@ public:
 
 	Matrix4 operator+=(Matrix4 other);
 	Matrix4 operator-=(Matrix4 other);
+	Matrix4 operator*=(Matrix4 other);
 
 	Matrix4() {};
 

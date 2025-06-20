@@ -67,6 +67,13 @@ Matrix4 Matrix4::operator-=(Matrix4 other)
 
 	return *this;
 }
+
+Matrix4 Matrix4::operator*=(Matrix4 other)
+{
+	*this = this->Multiply(other);
+	return *this;
+}
+
 Matrix4 Matrix4::Multiply(Matrix4 const& other)
 {
 	Matrix4 ret_mat;
