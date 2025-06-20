@@ -34,6 +34,19 @@ public:
 	//速さ
 	float deltaPos = 0;
 
+	Transform* parent_trans = nullptr;
+
+	inline Vector4<float> GetWorldPos()
+	{
+		return
+		{
+			mat.m[3][0],
+			mat.m[3][1],
+			mat.m[3][2],
+			1.0f
+		};
+	}
+
 
 	void Clear();
 

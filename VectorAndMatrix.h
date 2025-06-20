@@ -239,3 +239,4 @@ Matrix3 Get_SRTMat2D(const float& delta_scaleX_, const float& delta_scaleY_, con
 static Vector4<float> right = { 1.0f,0.0f,0.0f,1.0f };
 static Vector4<float> up = { 0.0f,1.0f,0.0f,1.0f };
 static Vector4<float> zAxis = { 0.0f,0.0f,1.0f,1.0f };
+

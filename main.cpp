@@ -12,7 +12,7 @@
 #include "Cube.h"
 #include "Sphere.h"
 #include "Collision.h"
-#include "Rail.h"
+#include "KadaiHierarchy.h"
 
 const char kWindowTitle[] = "Title";
 
@@ -89,12 +89,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//BaseDebugger
 	MyDebug myDebug;
 	//キャメラ
-	Camera* camera = new Camera({ 0.0f,33,-50,1.0f });
-	//立方体のオリジン
-	Cube cube1(1, 1, 1, { 1,0,2.0f,1 });
-	Cube cube2(1, 1, 1, { -1,0,2.0f,1 });
-	Rail rail;
-	
+	Camera* camera = new Camera({ 0.0f,2.5f,-2.5f,1.0f });
+
+	KadaiHierarchy k;
+
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
@@ -116,9 +114,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if((*itr).isActive) (*itr).Update();
 		}
 
-		cube1.Update();
-		rail.Update();
-
+		k.Update();
 
 		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
@@ -141,9 +137,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 
-		ImGui::Begin("cube1");
-		cube1.Debug();
-		ImGui::End();
 
 
 
@@ -154,9 +147,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // DEBUG
 
 		//================================================描画=====================================================
-		cube1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
-		rail.DrawPoints(Camera::VpMat, Camera::ViewportMat);
-
+		k.Draw(Camera::VpMat, Camera::ViewportMat);
 
 
 

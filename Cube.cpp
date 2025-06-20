@@ -5,7 +5,10 @@ void Cube::Update()
 {
 	//SRT行列をセット
 	trans.mat = Get_SRTMat3D(trans.scale, trans.rotateTheta, trans.pos);
-
+	if (trans.parent_trans)
+	{
+		trans.mat = trans.mat.Multiply(trans.parent_trans->mat);
+	}
 }
 
 void Cube::Render(Matrix4 vpMat, Matrix4 viewportMat, [[maybe_unused]] Vector4<float> camerDir)

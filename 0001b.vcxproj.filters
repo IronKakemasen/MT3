@@ -50,6 +50,9 @@
     <ClCompile Include="Rail.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="KadaiHierarchy.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
@@ -69,5 +72,6 @@
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Catmull.h" />
     <ClInclude Include="Rail.h" />
+    <ClInclude Include="KadaiHierarchy.h" />
   </ItemGroup>
 </Project>
