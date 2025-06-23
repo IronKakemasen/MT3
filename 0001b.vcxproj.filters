@@ -77,5 +77,6 @@
     <ClInclude Include="CircularMotion.h" />
     <ClInclude Include="Pendulum.h" />
     <ClInclude Include="Conityan.h" />
+    <ClInclude Include="BoundBall.h" />
   </ItemGroup>
 </Project>

@@ -241,3 +241,19 @@ static Vector4<float> right = { 1.0f,0.0f,0.0f,1.0f };
 static Vector4<float> up = { 0.0f,1.0f,0.0f,1.0f };
 static Vector4<float> zAxis = { 0.0f,0.0f,1.0f,1.0f };
 
+inline Vector4<float> GetPerpendiculer(Vector4<float> point_)
+{
+	Vector4<float> ret_vec;
+
+	if (point_.x != 0.0f || point_.y != 0.0f)
+	{
+		ret_vec = { -point_.y ,point_.x,0.0f,1.0f };
+	}
+
+	else
+	{
+		ret_vec = { 0.0f ,-point_.z,point_.y,1.0f };
+	}
+
+	return ret_vec;
+}
