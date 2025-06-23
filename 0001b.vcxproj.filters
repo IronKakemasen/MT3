@@ -53,9 +53,6 @@
     <ClCompile Include="KadaiHierarchy.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="SpringAndBall.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
@@ -77,5 +74,6 @@
     <ClInclude Include="Rail.h" />
     <ClInclude Include="KadaiHierarchy.h" />
     <ClInclude Include="SpringAndBall.h" />
+    <ClInclude Include="CircularMotion.h" />
   </ItemGroup>
 </Project>

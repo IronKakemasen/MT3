@@ -121,7 +121,6 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sphere.cpp" />
-    <ClCompile Include="SpringAndBall.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="VectorAndMatrix.cpp" />
   </ItemGroup>
@@ -130,6 +129,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Catmull.h" />
+    <ClInclude Include="CircularMotion.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="GlobalVariable.h" />

@@ -14,7 +14,7 @@
 #include "Collision.h"
 #include "KadaiHierarchy.h"
 #include "SpringAndBall.h"
-
+#include "CircularMotion.h"
 
 const char kWindowTitle[] = "Title";
 
@@ -98,8 +98,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ObjectManager objManager; 
 	objManager.RegisterAsGameObject(camera->GetAddress());
 
-	SpringAndBall s;
-
+	CircularMotionSimulation c;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -139,9 +138,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 
-		s.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
 
-		
+		c.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
 
 
 
