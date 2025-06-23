@@ -121,6 +121,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Rail.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="SpringAndBall.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="VectorAndMatrix.cpp" />
   </ItemGroup>
@@ -139,6 +140,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="SpringAndBall.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="VectorAndMatrix.h" />
   </ItemGroup>

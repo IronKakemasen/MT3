@@ -13,6 +13,8 @@
 #include "Sphere.h"
 #include "Collision.h"
 #include "KadaiHierarchy.h"
+#include "SpringAndBall.h"
+
 
 const char kWindowTitle[] = "Title";
 
@@ -91,31 +93,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//キャメラ
 	Camera* camera = new Camera({ 0.0f,2.5f,-2.5f,1.0f });
 
-	Vector4<float> a = { 1,2,3,1 };
-	Vector4<float> b = { 3,2,1,1 };
-
-	Matrix4 A =
-	{
-		1,2,3,4,
-		5,6,7,8,
-		9,10,11,12,
-		13,14,15,16
-	};
-
-	Matrix4 B =
-	{
-		0.1f,0.1f,0.1f,0.1f,
-		0.1f,0.1f,0.1f,0.1f,
-		0.1f,0.1f,0.1f,0.1f,
-		0.1f,0.1f,0.1f,0.1f
-	};
-
-	A *= B;
-
 
 	//ゲームオブジェクトを管理する箱			
 	ObjectManager objManager; 
 	objManager.RegisterAsGameObject(camera->GetAddress());
+
+	SpringAndBall s;
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -155,22 +139,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 
-		ImGui::Begin("a+b");
-		Vector4<float> add = a + b;
-		Vector4<float> mulAand3 = a;
-		mulAand3 = mulAand3 * 3.0f;
-
-
-		ImGui::DragFloat3("ADD", reinterpret_cast<float*>(&add));
-		ImGui::DragFloat3("MUL_vec", reinterpret_cast<float*>(&mulAand3));
-		for (int i = 0; i < 4; ++i)
-		{
-			ImGui::DragFloat4("MUL_matrix", reinterpret_cast<float*>(&A.m[i]));
-		}
-
-
-		ImGui::End();
-
+		s.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
 
 		
 
