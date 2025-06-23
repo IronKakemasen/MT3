@@ -117,10 +117,11 @@ void Sphere::Initialize()
 
 void Sphere::Debug()
 {
+	ImGui::Begin("sphere");
 	if (ImGui::Button("isActive"))isActive = !isActive;
 	ImGui::DragFloat4("Pos", reinterpret_cast<float*>(&trans.pos),0.05f);
 	ImGui::DragFloat4("rotate", reinterpret_cast<float*>(&trans.rotateTheta), 0.5f);
 	ImGui::DragFloat("commonScale", &commonScale, 0.01f);
-
+	ImGui::End();
 }
 #endif // DEBUG

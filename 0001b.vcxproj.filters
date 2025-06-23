@@ -75,5 +75,6 @@
     <ClInclude Include="KadaiHierarchy.h" />
     <ClInclude Include="SpringAndBall.h" />
     <ClInclude Include="CircularMotion.h" />
+    <ClInclude Include="Pendulum.h" />
   </ItemGroup>
 </Project>

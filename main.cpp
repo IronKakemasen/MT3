@@ -15,6 +15,8 @@
 #include "KadaiHierarchy.h"
 #include "SpringAndBall.h"
 #include "CircularMotion.h"
+#include "Pendulum.h"
+
 
 const char kWindowTitle[] = "Title";
 
@@ -99,6 +101,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objManager.RegisterAsGameObject(camera->GetAddress());
 
 	CircularMotionSimulation c;
+	Pendulum p;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -139,7 +142,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 
-		c.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
+		p.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
 
 
 

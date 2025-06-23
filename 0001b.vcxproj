@@ -137,6 +137,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="MyDebug.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="MyRectangle.h" />
+    <ClInclude Include="Pendulum.h" />
     <ClInclude Include="Rail.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Sphere.h" />
