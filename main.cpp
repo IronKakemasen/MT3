@@ -43,16 +43,14 @@ Vector4<float> GetPerpendiculer(Vector4<float> point_)
 bool IsCollidedWithPlane(float radius,Vector4<float>sphere_cPos_,Vector4<float> normal_, Vector4<float> pos_)
 {
 	bool ret = false;
-
 	float d = normal_.GetDotProductionResult(normal_, pos_);
-	float nande = sphere_cPos_.GetDotProductionResult(normal_, sphere_cPos_);
-	float d2 = nande - d;
-	
+	float d2 = sphere_cPos_.GetDotProductionResult(normal_, sphere_cPos_) - d;
 
 	if (fabsf(d2) <= radius)
 	{
 		ret = true;
 	}
+
 	return ret;
 }
 
@@ -101,9 +99,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ObjectManager objManager; 
 	objManager.RegisterAsGameObject(camera->GetAddress());
 
-	CircularMotionSimulation c;
-	Pendulum p;
-	Conityan co;
+	Sphere sphere1(1.0f, { -1,0,0,1 });
+	sphere1.current_color = { 255,255,255,255 };
+	MyRectangle rect;
+	rect.trans.pos = { 0,2,-1,1 };
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -118,9 +118,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//オブジェクトの更新処理（カメラ含む）
 		for (auto const itr : objManager.GetObjData())
 		{
-			if((*itr).isActive) (*itr).Update();
+			if ((*itr).isActive) (*itr).Update();
 		}
 
+		sphere1.Update();
+		Vector4<float> normal = { 0,1,0,1 };
+		Vector4<float> originP = { 0,0,0,1 };
+
+		Vector4<float> pointA = GetPerpendiculer(normal);
+		Vector4<float> pointB = pointA * -1.0f;
+		//Vec4<float> A2origin = originP - pointA;
+		//Vec4<float> origin2normal= normal - originP;
+
+		Vector4<float> crossVec = normal.GetCross(pointA);
+		Vector4<float> reversedCrossVec = crossVec * -1.0f;
+
+		rect.localShape.LT = pointA;
+		rect.localShape.RT = crossVec;
+		rect.localShape.RB = pointB;
+		rect.localShape.LB = reversedCrossVec;
+		rect.Update();
+
+		if (IsCollidedWithPlane(sphere1.radius, sphere1.trans.pos, normal, rect.trans.pos))
+		{
+			sphere1.current_color = { 255,0,0,255 };
+		}
+
+		else
+		{
+			sphere1.current_color = { 0,0,255,255 };
+
+		}
 
 		//===============================================デバッグ=================================================
 #if defined(_DEBUG)
@@ -142,16 +170,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 
+		ImGui::Begin("P1");
+		rect.Debug();
+		ImGui::End();
 
 
-		co.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
 
 
-
-		
 #endif // DEBUG
 
 		//================================================描画=====================================================
+		sphere1.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+		rect.Render(Camera::VpMat, Camera::ViewportMat, Camera::Normalized_cVec);
+
 
 
 

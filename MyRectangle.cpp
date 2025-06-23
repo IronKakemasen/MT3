@@ -16,16 +16,16 @@ void MyRectangle::Render(Matrix4 vpMat, Matrix4 viewportMat, [[maybe_unused]]Vec
 	screen_rect.LB = GetScreenVec(localShape.LB, vpMat, viewportMat, trans.mat);
 	screen_rect.RB = GetScreenVec(localShape.RB, vpMat, viewportMat, trans.mat);
 
-	uint32_t tmpColor = GetIntColor(current_color);
+	//uint32_t tmpColor = GetIntColor(current_color);
 
-	//描画
-	Novice::DrawQuad(
-		int(screen_rect.LT.x), int(screen_rect.LT.y), int(screen_rect.RT.x), int(screen_rect.RT.y),
-		int(screen_rect.LB.x), int(screen_rect.LB.y), int(screen_rect.RB.x), int(screen_rect.RB.y),
-		0, 0, 0, 0, 0, tmpColor);
+	////描画
+	//Novice::DrawQuad(
+	//	int(screen_rect.LT.x), int(screen_rect.LT.y), int(screen_rect.RT.x), int(screen_rect.RT.y),
+	//	int(screen_rect.LB.x), int(screen_rect.LB.y), int(screen_rect.RB.x), int(screen_rect.RB.y),
+	//	0, 0, 0, 0, 0, tmpColor);
 
-	//Drawin::DrawQuadWireframe(localShape,current_color, 
-	//	kBlendModeNormal, vpMat, viewportMat, trans.mat);
+	Drawin::DrawQuadWireframe(localShape,current_color, 
+		kBlendModeNormal, vpMat, viewportMat, trans.mat);
 
 }
 
