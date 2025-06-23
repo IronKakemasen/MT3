@@ -16,6 +16,7 @@
 #include "SpringAndBall.h"
 #include "CircularMotion.h"
 #include "Pendulum.h"
+#include "Conityan.h"
 
 
 const char kWindowTitle[] = "Title";
@@ -102,6 +103,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	CircularMotionSimulation c;
 	Pendulum p;
+	Conityan co;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -142,7 +144,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 
-		p.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
+		co.UpdateAndDraw(Camera::VpMat, Camera::ViewportMat);
 
 
 
